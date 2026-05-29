@@ -1,0 +1,60 @@
+export const DEFAULT_PLAYERS = [
+  { id: '1', name: 'Seba', score: 0 },
+  { id: '2', name: 'Cristian', score: 0 },
+  { id: '3', name: 'Melisa', score: 0 },
+  { id: '4', name: 'Paulo', score: 0 },
+  { id: '5', name: 'Vedoya', score: 0 }
+];
+
+export const DEFAULT_QUESTIONS = [
+  {
+    id: 'q1',
+    pregunta: '¿Qué es una simulación a eventos discretos?',
+    respuesta: 'Es aquella en la que las variables de estado del sistema cambian de forma instantánea únicamente en puntos separados en el tiempo, es decir, justo en el momento exacto en que ocurre un evento. Los eventos se procesan en orden cronológico y el reloj salta de la ocurrencia de un evento al próximo, asumiendo que entre dos eventos consecutivos no ocurren cambios relevantes.'
+  },
+  {
+    id: 'q2',
+    pregunta: '¿Cuál es la diferencia entre un modelo estático y un modelo dinámico? Da un ejemplo con el problema de la ferretería.',
+    respuesta: 'La diferencia radica en el rol del tiempo. Un modelo estático representa el sistema en un instante de tiempo particular (sin flujo temporal), mientras que en un modelo dinámico el tiempo es una variable fundamental. Por ejemplo, la caja de la ferretería es un modelo dinámico porque el sistema evoluciona con los minutos (llegadas y salidas de clientes) requiriendo actualizar un reloj de simulación. Si fuera estático, sería como tomar una "fotografía" a las 10:00 AM para ver cuánta gente hay parada sin importar su evolución posterior.'
+  },
+  {
+    id: 'q3',
+    pregunta: 'Verdadero o Falso. Las variables de estado de un sistema permiten determinar si el sistema es determinístico o probabilístico. Justifique.',
+    respuesta: 'Falso. La clasificación como determinístico o probabilístico se determina por la naturaleza de las variables de entrada, no las de estado. Las variables de estado determinan si el modelo es discreto o continuo según cómo cambian en el tiempo.'
+  },
+  {
+    id: 'q4',
+    pregunta: 'Verdadero o Falso. La simulación es una metodología que permite dar resultados numéricamente óptimos en una situación de toma de decisiones. Justifique.',
+    respuesta: 'Falso. Los modelos de simulación no dan soluciones óptimas. Al ser una idealización o abstracción de la realidad, no garantizan la solución perfecta, sino que proporcionan una buena aproximación del comportamiento del sistema para evaluar distintas alternativas.'
+  },
+  {
+    id: 'q5',
+    pregunta: 'Verdadero o Falso. La generación de números aleatorios permite obtener muestras válidas tanto para las entradas como para las salidas de la simulación. Justifique.',
+    respuesta: 'Falso. Se utilizan para extraer muestras que describan el comportamiento de las variables de entrada (exógenas). Las salidas (endógenas) son el resultado de la ejecución del modelo y, al tener carácter aleatorio en modelos estocásticos, deben estimarse mediante repeticiones y análisis estadístico, no por muestreo directo.'
+  },
+  {
+    id: 'q6',
+    pregunta: 'Verdadero o Falso. La "Visión del Mundo" es una manera de concebir el sistema real y todos los sistemas se pueden plasmar en cualquiera de las visiones. Justifique.',
+    respuesta: 'Falso. Las visiones del mundo (Planificación de Eventos, Interacción de Procesos, Escaneo de Actividades) son exclusivas para modelar sistemas dinámicos de eventos discretos. No se pueden usar para sistemas continuos o modelos estáticos. Sería verdadero si especificara que abarca a "todos los sistemas de eventos discretos".'
+  },
+  {
+    id: 'q7',
+    pregunta: 'Verdadero o Falso. El avance del tiempo variable es útil solo para sistemas probabilísticos. Justifique.',
+    respuesta: 'Falso. Es útil para avanzar el reloj directamente al tiempo de ocurrencia del próximo evento, superando la ineficiencia de procesar intervalos donde no ocurre nada. Esto es útil para cualquier modelo dinámico de eventos discretos, sea determinístico o probabilístico.'
+  },
+  {
+    id: 'q8',
+    pregunta: 'Define la etapa de adquisición de datos y relaciónala con el problema de la práctica.',
+    respuesta: 'Consiste en identificar los datos requeridos por el modelo (clasificándolos en determinísticos y probabilísticos) y cómo ingresarán. En el problema de la ferretería, lo determinístico es tener un único servidor o 100 clientes fijos, y lo probabilístico son los tiempos de llegada y de atención. En el kiosco, los datos determinísticos son los precios y costos, y los probabilísticos las muestras de demanda y el tipo de día.'
+  },
+  {
+    id: 'q9',
+    pregunta: 'Selecciona un evento del problema de la caja de la ferretería e indica la entidad a la que afecta, sus atributos y variables de estado que modifica.',
+    respuesta: 'Evento: "Llegada de un cliente". Afecta directamente a la entidad Cliente (atributos: tiempo de arribo, tiempo de espera), y a las entidades Cajero (atributos: tiempo de atención, ocioso, horas trabajadas) y Caja (atributo: ocupado [sí/no]). Este evento modifica instantáneamente variables de estado como la cantidad de clientes en espera o el tiempo ocioso del cajero.'
+  },
+  {
+    id: 'q10',
+    pregunta: '¿Cuándo NO es apropiada la simulación? Menciona al menos tres situaciones.',
+    respuesta: 'No se debe usar cuando el problema puede resolverse analíticamente con ecuaciones exactas, si la experimentación directa sobre el sistema real es más barata y segura, si los costos de simular superan los ahorros potenciales, o si no hay datos disponibles para validar el modelo.'
+  }
+];
