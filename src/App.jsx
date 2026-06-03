@@ -44,7 +44,7 @@ export default function App() {
 
   // Confirm reset defaults
   const confirmResetToDefault = () => {
-    setPlayers(DEFAULT_PLAYERS.map(p => ({ ...p, score: 0 })));
+    setPlayers([]);
     setQuestions(DEFAULT_QUESTIONS.map(q => ({ ...q, used: false })));
     setGameState('wheel');
     setActivePlayer(null);
@@ -52,7 +52,7 @@ export default function App() {
     setActivePlayerIndex(0);
     setView('config');
     setShowConfirmReset(false);
-    showNotification('Se restablecieron los participantes y preguntas por defecto.', 'success');
+    showNotification('Se restablecieron las preguntas por defecto y se limpiaron los participantes.', 'success');
   };
 
   const handleStartGame = () => {
@@ -250,7 +250,7 @@ export default function App() {
             onGoToConfig={() => setView('config')}
             answeredCount={answeredCount}
             onRemovePlayer={handleRemovePlayerMidGame}
-            nextPlayer={players[activePlayerIndex % players.length]}
+            nextPlayer={players.length > 0 ? players[activePlayerIndex % players.length] : null}
           />
         )}
       </main>
@@ -306,7 +306,7 @@ export default function App() {
               </div>
               
               <p className="text-slate-300 text-sm leading-relaxed mb-6">
-                ¿Estás seguro de que quieres restablecer los participantes y preguntas por defecto? Se perderán todos los puntajes actuales acumulados.
+                ¿Estás seguro de que quieres restablecer las preguntas por defecto y limpiar la lista de participantes? Se perderán todos los puntajes actuales acumulados.
               </p>
               
               <div className="flex gap-3 justify-end">

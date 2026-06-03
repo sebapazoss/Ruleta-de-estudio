@@ -1,10 +1,4 @@
-export const DEFAULT_PLAYERS = [
-  { id: '1', name: 'Seba', score: 0 },
-  { id: '2', name: 'Cristian', score: 0 },
-  { id: '3', name: 'Melisa', score: 0 },
-  { id: '4', name: 'Paulo', score: 0 },
-  { id: '5', name: 'Vedoya', score: 0 }
-];
+export const DEFAULT_PLAYERS = [];
 
 export const DEFAULT_QUESTIONS = [
   {
