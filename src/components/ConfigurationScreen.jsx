@@ -81,96 +81,108 @@ export default function ConfigurationScreen({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-4">
-      {/* Title Header */}
-      <div className="text-center mb-4">
-        <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-violet-400 via-fuchsia-400 to-rose-400 bg-clip-text text-transparent drop-shadow-md">
-          Ruleta de Estudio en Grupo
-        </h1>
-        <p className="text-slate-400 mt-1 text-sm font-medium max-w-xl mx-auto">
-          Configura tus participantes y carga tus preguntas para empezar un repaso interactivo y competitivo.
+    <div className="max-w-6xl mx-auto px-margin-mobile md:px-margin-desktop py-2">
+      {/* Hero Header */}
+      <div className="mb-sm text-center md:text-left">
+        <span className="font-label-caps text-label-caps text-primary mb-xs inline-block uppercase tracking-widest text-[9px]">
+          Configuración de Partida
+        </span>
+        <h2 className="font-display-lg text-display-lg text-on-surface mb-xs">
+          Ruleta de estudio en grupo
+        </h2>
+        <p className="text-on-surface-variant max-w-xl text-xs">
+          Prepara tu sesión de estudio competitiva. Agrega a tus compañeros y carga el banco de preguntas para comenzar el desafío.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        {/* Left Side: Players Setup */}
-        <div className="glass-panel p-4 rounded-xl border border-slate-700/50 shadow-xl flex flex-col">
-          <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-violet-400">
-            <Users className="w-5 h-5" />
-            1. Participantes
-          </h2>
-
-          {/* Add Player Form */}
-          <form onSubmit={addPlayer} className="flex gap-2 mb-4">
-            <div className="relative flex-1">
-              <input
-                type="text"
-                value={playerNameInput}
-                onChange={(e) => {
-                  // Only allow letters, accents, and ñ/ü (Spanish names)
-                  const cleaned = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '');
-                  setPlayerNameInput(cleaned.slice(0, 15));
-                }}
-                placeholder="Nombre..."
-                className="w-full pl-3 pr-10 py-2 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
-              />
+      {/* Bento Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter mb-sm">
+        {/* Card 1: Companion List */}
+        <section className="md:col-span-7 glass-panel rounded-xl p-sm flex flex-col gap-sm shadow-2xl">
+          <div className="flex justify-between items-start">
+            <div>
+              <h3 className="font-headline-lg text-headline-lg text-primary">Compañeros</h3>
+              <p className="text-on-surface-variant font-data-sm text-data-sm uppercase">
+                {players.length.toString().padStart(2, '0')} Miembros Activos
+              </p>
             </div>
+            <span className="font-data-lg text-data-lg text-secondary opacity-50">#01</span>
+          </div>
+
+          {/* Input Group Form */}
+          <form onSubmit={addPlayer} className="relative mt-xs">
+            <input
+              type="text"
+              value={playerNameInput}
+              onChange={(e) => {
+                // Only allow letters, accents, spaces, and ñ/ü (Spanish names)
+                const cleaned = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ ]/g, '');
+                setPlayerNameInput(cleaned.slice(0, 15));
+              }}
+              placeholder="Escribe un nombre..."
+              className="w-full bg-black/40 border-b border-secondary/50 focus:border-secondary focus:ring-0 text-on-surface py-2 px-base rounded-t-lg transition-all placeholder:text-outline-variant font-body-md text-xs focus:outline-none"
+            />
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer"
+              className="absolute right-base top-1/2 -translate-y-1/2 w-8 h-8 bg-secondary rounded-lg flex items-center justify-center text-on-secondary shadow-[0_0_15px_rgba(76,215,246,0.5)] hover:scale-105 active:scale-95 transition-transform border-none cursor-pointer"
             >
-              <UserPlus className="w-4 h-4" />
-              <span>Agregar</span>
+              <span className="material-symbols-outlined text-sm">person_add</span>
             </button>
           </form>
 
-          {/* Players List */}
-          <div className="flex-1 min-h-[150px] max-h-[200px] overflow-y-auto space-y-1.5 pr-1">
-            {players.map((p) => (
-              <div
-                key={p.id}
-                className="flex items-center justify-between px-3 py-2 bg-slate-800/40 border border-slate-800 hover:border-slate-700/50 rounded-lg transition-all group"
-              >
-                <span className="font-semibold text-sm text-slate-200">{p.name}</span>
-                <button
-                  onClick={() => removePlayer(p.id)}
-                  className="p-1 rounded-md text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all opacity-100 md:opacity-0 group-hover:opacity-100 cursor-pointer"
-                  title="Eliminar participante"
+          {/* Scrollable List */}
+          <div className="flex flex-col gap-xs max-h-44 overflow-y-auto pr-xs">
+            {players.map((p, index) => {
+              // Cycle through primary, secondary, tertiary for avatars
+              const avatarColors = [
+                'bg-primary/20 text-primary border-primary/40',
+                'bg-secondary/20 text-secondary border-secondary/40',
+                'bg-tertiary/20 text-tertiary border-tertiary/40'
+              ];
+              const avatarClass = avatarColors[index % avatarColors.length];
+
+              return (
+                <div
+                  key={p.id}
+                  className="flex justify-between items-center p-base bg-white/5 rounded-lg border border-white/5 hover:border-secondary/30 transition-all group"
                 >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
-            ))}
+                  <div className="flex items-center gap-base">
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center border ${avatarClass}`}>
+                      <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>person</span>
+                    </div>
+                    <span className="text-xs text-on-surface">{p.name}</span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => removePlayer(p.id)}
+                    className="text-outline hover:text-error transition-colors border-none bg-transparent cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-sm">delete</span>
+                  </button>
+                </div>
+              );
+            })}
 
             {players.length === 0 && (
-              <div className="h-full flex flex-col items-center justify-center text-slate-500 py-6">
-                <Users className="w-8 h-8 mb-1.5 stroke-[1.5] text-slate-600" />
+              <div className="h-full flex flex-col items-center justify-center text-outline-variant py-8">
+                <span className="material-symbols-outlined text-3xl mb-1">group</span>
                 <p className="text-xs">No hay participantes agregados</p>
               </div>
             )}
           </div>
-        </div>
+        </section>
 
-        {/* Right Side: Questions Upload */}
-        <div className="glass-panel p-4 rounded-xl border border-slate-700/50 shadow-xl flex flex-col">
-          <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-violet-400">
-            <BookOpen className="w-5 h-5" />
-            2. Preguntas y Respuestas
-          </h2>
-
-          <p className="text-slate-400 text-xs mb-3">
-            Sube un archivo JSON con formato: <code className="bg-slate-900 px-1.5 py-0.5 rounded text-amber-400 font-mono">{'[{"pregunta": "...", "respuesta": "..."}]'}</code>
-          </p>
-
-          {/* File Upload Area */}
+        {/* Card 2: JSON Upload */}
+        <section className="md:col-span-5 glass-panel rounded-xl p-sm flex flex-col gap-sm shadow-2xl relative overflow-hidden">
+          <div className="absolute -right-4 -top-4 opacity-10">
+            <span className="material-symbols-outlined text-[80px]">terminal</span>
+          </div>
+          <h3 className="font-headline-lg text-headline-lg text-secondary">Banco de Preguntas</h3>
+          
           <div
             onClick={triggerFileSelect}
-            className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 flex-1 min-h-[100px] ${
-              jsonSuccess
-                ? 'border-emerald-500/40 bg-emerald-500/5 hover:bg-emerald-500/10'
-                : jsonError
-                ? 'border-rose-500/40 bg-rose-500/5 hover:bg-rose-500/10'
-                : 'border-slate-700 bg-slate-800/20 hover:border-violet-500/50 hover:bg-slate-800/40'
+            className={`flex-grow border border-dashed rounded-xl flex flex-col items-center justify-center p-md text-center hover:border-secondary/50 hover:bg-white/5 transition-all cursor-pointer group ${
+              jsonSuccess ? 'border-emerald-500/40 bg-emerald-500/5' : jsonError ? 'border-rose-500/40 bg-rose-500/5' : 'border-white/10'
             }`}
           >
             <input
@@ -180,67 +192,61 @@ export default function ConfigurationScreen({
               accept=".json"
               className="hidden"
             />
-            <FileJson className={`w-8 h-8 stroke-[1.5] ${
-              jsonSuccess ? 'text-emerald-400' : jsonError ? 'text-rose-400' : 'text-slate-400'
-            }`} />
-            
-            <div>
-              <p className="text-xs font-semibold text-slate-300">
-                {jsonSuccess ? '¡Archivo cargado correctamente!' : 'Haz clic para seleccionar archivo JSON'}
-              </p>
-              <p className="text-[10px] text-slate-500 mt-0.5">
-                JSON de preguntas y respuestas (.json)
-              </p>
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center mb-sm group-hover:scale-110 transition-transform ${
+              jsonSuccess ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : jsonError ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20' : 'bg-secondary/10 text-secondary neon-glow-cyan'
+            }`}>
+              <span className="material-symbols-outlined text-xl">upload_file</span>
             </div>
+            <p className="font-data-lg text-xs text-on-surface mb-0">
+              {jsonSuccess ? '¡Archivo cargado!' : jsonError ? 'Error de archivo' : 'Cargar archivo JSON'}
+            </p>
+            <p className="text-outline-variant text-[11px] mt-xs">
+              {jsonSuccess ? `Se cargaron ${questions.length} preguntas` : jsonError ? 'Haz clic para reintentar' : 'Arrastra y suelta tu archivo aquí'}
+            </p>
           </div>
 
-          {/* Feedback & Stats */}
-          <div className="mt-3 min-h-[36px]">
-            {jsonError && (
-              <div className="flex items-start gap-2 text-xs text-rose-400 bg-rose-500/10 p-2 rounded-lg border border-rose-500/20">
-                <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                <span>{jsonError}</span>
-              </div>
-            )}
-            {jsonSuccess && (
-              <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
-                <CheckCircle2 className="w-4 h-4 shrink-0" />
-                <span>Cargadas {questions.length} preguntas correctamente.</span>
-              </div>
-            )}
-            {!jsonError && !jsonSuccess && (
-              <div className="text-xs text-slate-500 bg-slate-800/30 p-2 rounded-lg border border-slate-800/50 flex justify-between items-center">
-                <span>Usando preguntas actuales del pool.</span>
-                <span className="font-bold text-violet-400">{questions.length} preguntas</span>
-              </div>
-            )}
+          <div className="bg-black/20 p-base rounded-lg border border-white/5">
+            <div className="flex items-center gap-xs mb-xs">
+              <span className="material-symbols-outlined text-xs text-tertiary">info</span>
+              <span className="font-label-caps text-[9px] text-tertiary">FORMATO REQUERIDO</span>
+            </div>
+            <code className="font-data-sm text-[10px] text-outline-variant block overflow-x-auto whitespace-nowrap">
+              [ &#123; "pregunta": "...", "respuesta": "..." &#125; ]
+            </code>
           </div>
-        </div>
+
+          {/* Feedback & Error Banner */}
+          {jsonError && (
+            <div className="flex items-start gap-1 text-[11px] text-rose-400 bg-rose-500/10 p-1.5 rounded-lg border border-rose-500/20 mt-1">
+              <span className="material-symbols-outlined text-xs mt-0.5">error</span>
+              <span>{jsonError}</span>
+            </div>
+          )}
+        </section>
       </div>
 
       {/* Control Buttons */}
-      <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+      <div className="mt-base flex flex-row gap-3 justify-center items-center">
         {/* Reset to defaults */}
         <button
           onClick={resetToDefault}
-          className="px-4 py-2.5 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:bg-slate-800 hover:border-slate-600 transition-all font-semibold flex items-center gap-2 cursor-pointer text-xs w-full sm:w-auto justify-center"
+          className="group relative px-4 py-2 rounded-lg border border-white/10 text-outline hover:text-on-surface hover:bg-white/5 transition-all font-semibold flex items-center justify-center gap-1.5 cursor-pointer text-xs"
         >
-          <RefreshCw className="w-4 h-4" />
-          Restablecer Valores Iniciales
+          <span className="material-symbols-outlined text-xs">replay</span>
+          <span>Restablecer</span>
         </button>
 
         {/* Start Game */}
         <button
           onClick={onStartGame}
           disabled={players.length === 0 || questions.length === 0}
-          className={`px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 text-sm w-full sm:w-auto cursor-pointer shadow-lg ${
-            players.length === 0 || questions.length === 0
-              ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
-              : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]'
-          }`}
+          className="group relative px-6 py-2 bg-primary text-on-primary font-semibold rounded-lg flex items-center justify-center gap-sm shadow-[0_0_20px_rgba(208,188,255,0.3)] hover:scale-105 active:scale-95 transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:scale-100 border-none cursor-pointer text-xs"
         >
-          <Play className="w-4 h-4 fill-current" />
-          Comenzar Juego
+          <span className="relative z-10 font-bold">EMPEZAR JUEGO</span>
+          <span className="material-symbols-outlined relative z-10 text-sm transition-transform group-hover:translate-x-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>
+            play_arrow
+          </span>
+          <div className="absolute inset-0 bg-white/20 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"></div>
         </button>
       </div>
     </div>
