@@ -18,6 +18,7 @@ export default function GameScreen({
   onGoToConfig,
   answeredCount,
   onRemovePlayer,
+  onAddPlayer,
   nextPlayer
 }) {
   const totalQuestions = questions.length;
@@ -64,7 +65,7 @@ export default function GameScreen({
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
         {/* Left Side: Scoreboard / Leaderboard */}
         <div className="lg:col-span-1 order-2 lg:order-1">
-          <Leaderboard players={players} onRemovePlayer={onRemovePlayer} />
+          <Leaderboard players={players} onRemovePlayer={onRemovePlayer} onAddPlayer={onAddPlayer} />
         </div>
 
         {/* Right Side: Primary Play Area */}

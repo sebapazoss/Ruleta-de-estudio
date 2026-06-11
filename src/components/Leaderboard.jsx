@@ -1,10 +1,25 @@
-import React from 'react';
-import { Trophy, User, Medal, Trash2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Trophy, User, Medal, Trash2, Plus, Check, X } from 'lucide-react';
 
-export default function Leaderboard({ players, onRemovePlayer }) {
+export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newPlayerName, setNewPlayerName] = useState('');
+
   // Sort players by score descending
   const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
   const highestScore = Math.max(...players.map(p => p.score), 0);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const trimmed = newPlayerName.trim();
+    if (!trimmed) return;
+
+    const success = onAddPlayer(trimmed);
+    if (success) {
+      setNewPlayerName('');
+      setShowAddForm(false);
+    }
+  };
 
   return (
     <div className="glass-panel rounded-2xl p-6 shadow-xl w-full border border-slate-700/50">
@@ -85,6 +100,60 @@ export default function Leaderboard({ players, onRemovePlayer }) {
           </div>
         )}
       </div>
+
+      {onAddPlayer && (
+        <div className="mt-4 pt-4 border-t border-slate-800/80">
+          {!showAddForm ? (
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="w-full py-2.5 rounded-xl border border-dashed border-violet-500/30 hover:border-violet-500/60 bg-violet-500/5 hover:bg-violet-500/10 text-violet-400 hover:text-violet-300 font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-[0.98]"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Unir Compañero Tarde ⏰</span>
+            </button>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    value={newPlayerName}
+                    onChange={(e) => {
+                      const cleaned = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '');
+                      setNewPlayerName(cleaned.slice(0, 15));
+                    }}
+                    placeholder="Nombre..."
+                    className="w-full pl-3 pr-12 py-2 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
+                    autoFocus
+                  />
+                  <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-bold bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700/50">
+                    -1 pt
+                  </span>
+                </div>
+                
+                <button
+                  type="submit"
+                  className="p-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold flex items-center justify-center transition-all shadow-md active:scale-95 cursor-pointer"
+                  title="Confirmar"
+                >
+                  <Check className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowAddForm(false);
+                    setNewPlayerName('');
+                  }}
+                  className="p-2 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+                  title="Cancelar"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
+      )}
     </div>
   );
 }

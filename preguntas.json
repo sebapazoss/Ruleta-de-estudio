@@ -1,58 +1,210 @@
 [
     {
-        "pregunta": "Diferencia modelo estático de modelo dinámico. Aclara haciendo referencia a un problema práctico.",
-        "respuesta": "El estático representa el sistema en un instante particular sin importar el flujo temporal. El dinámico depende del avance del tiempo. Ejemplo: La caja de ferretería es dinámica porque evoluciona con los minutos y se rastrean tiempos, a diferencia de tomar solo una 'foto' del local a las 10 AM."
+        "pregunta": "1. Define simulación a eventos discretos.",
+        "respuesta": "Es aquella donde las variables de estado cambian instantáneamente en puntos separados en el tiempo, justo cuando ocurre un evento, y el reloj avanza saltando de un evento al próximo."
     },
     {
-        "pregunta": "d. La \"Visión del Mundo\" es una manera de concebir el sistema real y todos los sistemas se pueden plasmar en cualquiera de las visiones.",
-        "respuesta": "Falso. Las visiones enseñadas son exclusivas para modelar sistemas dinámicos de eventos discretos, no sirven para sistemas continuos o modelos estáticos."
+        "pregunta": "2. ¿Qué es la simulación y cuál es su propósito?",
+        "respuesta": "Es un proceso experimental con un modelo de un sistema real. Su propósito es comprender su comportamiento y evaluar estrategias de operación de forma segura sin alterar la realidad."
     },
     {
-        "pregunta": "e. El avance del tiempo variable es útil solo para sistemas probabilísticos.",
-        "respuesta": "Falso. Es útil para avanzar el reloj al próximo evento evitando intervalos inactivos, sirviendo para cualquier modelo dinámico de eventos discretos (sea determinístico o probabilístico)."
+        "pregunta": "3. ¿Para qué sirve la simulación?",
+        "respuesta": "Sirve para predecir comportamientos, diseñar sistemas, probar políticas sin riesgos, determinar variables críticas y analizar sistemas complejos."
     },
     {
-        "pregunta": "f. La verificación de un modelo consiste en comprobar que exista una correspondencia exacta entre el modelo computacional y el sistema real.",
-        "respuesta": "Falso. Esa es la definición de validación. La verificación solo revisa la consistencia interna y ausencia de errores lógicos en la programación."
+        "pregunta": "4. ¿Cuándo es útil la simulación?",
+        "respuesta": "Cuando no existe formulación matemática analítica, es costoso o imposible experimentar en el sistema real, el sistema aún no existe, o se requiere estudiar escalas de tiempo largas."
     },
     {
-        "pregunta": "i. En la política de inventario de revisión continua, la cantidad a ordenar al proveedor varía dependiendo del nivel de stock que haya en el momento de realizar el pedido.",
-        "respuesta": "Falso. En la revisión continua se pide siempre un lote fijo (Q). Cantidades variables corresponden a la política de revisión periódica."
+        "pregunta": "5. ¿Cuáles son las ventajas de la simulación?",
+        "respuesta": "Permite experimentar sin riesgos, analizar escenarios futuros, comprimir/expandir el tiempo, identificar cuellos de botella y ayudar en la toma de decisiones."
     },
     {
-        "pregunta": "k. El escaneo de actividades es una visión del mundo que se asocia inherentemente al avance del tiempo con reloj variable.",
-        "respuesta": "Falso. Se asocia obligatoriamente a un mecanismo de avance de tiempo de paso de reloj constante (intervalos fijos)."
+        "pregunta": "6. ¿Cuándo NO es apropiada la simulación?",
+        "respuesta": "Cuando el problema puede resolverse matemáticamente de forma analítica, si es más caro simular que experimentar directo, o si no hay datos suficientes ni tiempo."
     },
     {
-        "pregunta": "l. En un sistema de teoría de decisiones, la incertidumbre ocurre cuando se conocen las probabilidades de los resultados alternos que pueden ocurrir.",
-        "respuesta": "Falso. Eso es la definición de riesgo. En la incertidumbre no se sabe qué puede ocurrir ni se pueden asignar probabilidades."
+        "pregunta": "7. ¿Cuáles son las desventajas o limitaciones de la simulación?",
+        "respuesta": "Genera resultados estimativos que requieren análisis estadístico, puede ocultar errores graves que llevan a conclusiones falsas, y consume muchos recursos computacionales y de tiempo."
     },
     {
-        "pregunta": "n. En una simulación con avance de reloj de paso constante (Δt), se asume que dos eventos pueden ocurrir simultáneamente en el mismo intervalo de tiempo exacto.",
-        "respuesta": "Falso. Se asume que el intervalo es tan pequeño que solo ocurre un evento por paso, no se contemplan eventos simultáneos."
+        "pregunta": "8. Diferencia modelo estático de modelo dinámico.",
+        "respuesta": "El estático es una 'foto' del sistema en un instante particular sin importar el tiempo; el dinámico muestra la evolución y depende fundamentalmente del avance temporal."
     },
     {
-        "pregunta": "ñ. Un modelo de simulación dinámico y estocástico generará la misma salida exacta cada vez que se ejecute si no se alteran sus parámetros de entrada.",
-        "respuesta": "Falso. Al incorporar componentes aleatorios, distintas ejecuciones producen resultados diferentes, requiriendo repeticiones y análisis estadístico."
+        "pregunta": "9. ¿Qué es el modelo conceptual?",
+        "respuesta": "Es una representación abstracta y lógica del sistema real que define fronteras, entidades y eventos, independiente del software de programación a utilizar."
     },
     {
-        "pregunta": "Define la etapa de adquisición de datos. Relaciona con el problema de la práctica, indicando que se hace en esta etapa.",
-        "respuesta": "Consiste en identificar los datos y cómo ingresan (determinísticos o probabilísticos). En la práctica, es recabar las entradas del sistema, como estimar arribos a la ferretería o los costos fijos del kiosco."
+        "pregunta": "10. Cuáles son los componentes del modelo conceptual?",
+        "respuesta": "Se compone de entidades, atributos, variables de estado, eventos, actividades y localizaciones o recursos."
     },
     {
-        "pregunta": "Selecciona un evento práctico e indica: entidad a la que afecta. Atributos de esa entidad. Variables de estado que modifica.",
-        "respuesta": "Evento 'Llegada de un cliente'. Afecta al Cliente (atributos: tiempo de arribo/espera), Cajero (tiempo atención/ocioso) y Caja (ocupado). Modifica instantáneamente la cantidad de clientes en espera o el tiempo ocioso del cajero."
+        "pregunta": "11. ¿Qué es la parte estática del sistema?",
+        "respuesta": "Representa la arquitectura física, los elementos fijos, las capacidades y las fronteras que no cambian a lo largo del tiempo."
     },
     {
-        "pregunta": "¿Cuándo NO es apropiada la simulación? Menciona al menos tres situaciones.",
-        "respuesta": "Cuando el problema puede resolverse analíticamente con ecuaciones, si experimentar en el sistema real es más barato/seguro, o si no hay datos suficientes para validar el modelo."
+        "pregunta": "12. ¿Qué es la parte dinámica del sistema?",
+        "respuesta": "Refiere a los procesos, interacciones, flujos y eventos que dictan cómo cambia y evoluciona el estado del sistema en el tiempo."
     },
     {
-        "pregunta": "Diferencia Verificación de Validación en un proyecto de simulación.",
-        "respuesta": "La verificación corrobora que el modelo se programó en la computadora sin errores lógicos. La validación comprueba que el modelo represente fielmente al sistema real."
+        "pregunta": "13. ¿Cuáles son las etapas del proceso de Simulación? describilas",
+        "respuesta": "Formular el problema, adquirir datos, construir el modelo conceptual, codificar, verificar/validar, diseñar/ejecutar experimentos, analizar resultados y documentar/implantar."
     },
     {
-        "pregunta": "En la etapa de adquisición de datos, ¿qué ventaja tiene ajustar los datos a una distribución teórica de probabilidad en lugar de usar una empírica?",
-        "respuesta": "Permite que el modelo alcance una mayor generalización para representar la realidad, evitando quedar limitado exclusivamente a la muestra histórica obtenida."
+        "pregunta": "14. Define la etapa de adquisición de datos.",
+        "respuesta": "Consiste en identificar y recopilar del mundo real la información estadística (determinística o probabilística) necesaria para alimentar el comportamiento del modelo."
+    },
+    {
+        "pregunta": "15. ¿Qué ventaja tiene ajustar los datos a una distribución teórica?",
+        "respuesta": "Otorga mayor generalización al modelo, permitiendo suavizar errores de la muestra empírica y predecir escenarios extremos que no fueron observados directamente."
+    },
+    {
+        "pregunta": "16. Diferencia Verificación de Validación",
+        "respuesta": "La verificación corrobora que el código no tenga errores lógicos; la validación comprueba que el modelo represente fielmente al sistema real."
+    },
+    {
+        "pregunta": "17. ¿Qué es el análisis de resultados?",
+        "respuesta": "Es la aplicación de técnicas estadísticas a las salidas del modelo para distinguir si los resultados son producto del azar o tendencias reales significativas."
+    },
+    {
+        "pregunta": "18. ¿Para qué sirve el análisis de resultados?",
+        "respuesta": "Sirve para validar hipótesis, comparar distintas alternativas de diseño y tomar decisiones basadas en estadísticas reales en lugar de números sesgados."
+    },
+    {
+        "pregunta": "19. ¿A quién está dirigido el análisis de resultados?",
+        "respuesta": "Al equipo técnico para asegurar la validez estadística, y a los tomadores de decisiones (clientes/gerentes) traducido a conclusiones claras para justificar acciones."
+    },
+    {
+        "pregunta": "20. ¿Qué cuidados hay que tener al analizar resultados?",
+        "respuesta": "Realizar múltiples corridas (réplicas), descartar el período de calentamiento inicial y usar semillas distintas para evitar dependencias engañosas."
+    },
+    {
+        "pregunta": "21. ¿Por qué son importantes los Números Aleatorios en simulación?",
+        "respuesta": "Son la base fundamental para introducir incertidumbre, imitando el comportamiento azaroso e impredecible de los procesos de la vida real."
+    },
+    {
+        "pregunta": "22. ¿Qué son los números aleatorios?",
+        "respuesta": "Valores numéricos obtenidos al azar distribuidos uniformemente entre 0 y 1, donde cada número es estadísticamente independiente de los anteriores."
+    },
+    {
+        "pregunta": "23. ¿Por qué se generan números aleatorios?",
+        "respuesta": "Porque los sistemas son estocásticos y es necesario simular comportamientos erráticos como llegadas de clientes, fallas o demandas."
+    },
+    {
+        "pregunta": "24. ¿Para qué sirven los números aleatorios?",
+        "respuesta": "Para generar las variables aleatorias necesarias que permitirán realizar muestreos y ejecutar la simulación de forma estocástica."
+    },
+    {
+        "pregunta": "25. ¿Cómo se obtienen los números aleatorios?",
+        "respuesta": "Mediante fenómenos físicos de la naturaleza (aleatorios reales) o mediante algoritmos computacionales matemáticos (pseudoaleatorios)."
+    },
+    {
+        "pregunta": "26. ¿Qué es un número pseudoaleatorio?",
+        "respuesta": "Es un número generado por computadora con algoritmos que imita el azar, reproduciendo siempre la misma secuencia si se usa la misma semilla inicial."
+    },
+    {
+        "pregunta": "27. ¿Qué se entiende por 'Visión del mundo' en la simulación y cuáles son los enfoques principales?",
+        "respuesta": "Es la forma en que se conceptualizan los sistemas a modelar. Los enfoques son: Planificación de Eventos, Interacción de Procesos y Escaneo de Actividades."
+    },
+    {
+        "pregunta": "28. ¿Qué es la visión del mundo?",
+        "respuesta": "Es la orientación abstracta y lógica adoptada por el desarrollador para representar cómo opera y evoluciona un sistema discretizado en la computadora."
+    },
+    {
+        "pregunta": "29. Diferencie reloj constante y reloj variable.",
+        "respuesta": "El constante avanza a intervalos de tiempo fijos revisando todo; el variable salta en el tiempo directo al instante de ocurrencia del próximo evento planificado."
+    },
+    {
+        "pregunta": "30. ¿Qué es el avance del tiempo?",
+        "respuesta": "Es el mecanismo mediante el cual el reloj de simulación progresa para representar cronológicamente la evolución del modelo."
+    },
+    {
+        "pregunta": "31. ¿Qué relación existe entre visión del mundo y avance del tiempo?",
+        "respuesta": "Están vinculados porque la forma en que se decide representar lógicamente el sistema (visión) determina qué mecanismo usará el reloj para avanzar."
+    },
+    {
+        "pregunta": "32. ¿Cuáles son los mecanismos de avance del tiempo?",
+        "respuesta": "Paso de reloj constante (a intervalos fijos) y paso de reloj variable (de evento en evento)."
+    },
+    {
+        "pregunta": "33. ¿Qué es la FEL y en qué mecanismo se utiliza?",
+        "respuesta": "La Lista de Futuros Eventos (FEL) ordena cronológicamente los eventos planificados y es exclusiva del mecanismo de avance de tiempo variable."
+    },
+    {
+        "pregunta": "34. Selecciona un evento de la parte práctica e indica: entidad a la que afecta. Atributos de esa entidad. Variables de estado que modifica.",
+        "respuesta": "Evento 'Llegada de cliente'. Afecta a Cliente y Cajero. Atributo: tiempo de arribo. Modifica estado: incrementa clientes en espera o cambia al cajero de ocioso a ocupado."
+    },
+    {
+        "pregunta": "35. ¿Qué es un inventario?",
+        "respuesta": "Es un conjunto de bienes o artículos almacenados estratégicamente para satisfacer la demanda de clientes o procesos productivos."
+    },
+    {
+        "pregunta": "36. Ventajas y desventajas de un inventario",
+        "respuesta": "Ventaja: previene escasez y permite producción ininterrumpida. Desventaja: genera costos por conservación, seguridad y riesgo de caducidad."
+    },
+    {
+        "pregunta": "37. Mencione y explique las características generales de un Sistema de Inventario.",
+        "respuesta": "Se basa en el tipo de Demanda, Riesgo de Faltante, Tiempo de Entrega del proveedor, Descuentos por volumen y la Política de Pedidos (continua o periódica)."
+    },
+    {
+        "pregunta": "38. ¿Cuáles son los componentes de costo de un Sistema de Inventario?",
+        "respuesta": "Costo de Orden/Pedido (K), Costo de Compra de artículos (C), Costo de Conservación en depósito (H) y Costo por Faltante o déficit (B)."
+    },
+    {
+        "pregunta": "39. Las variables de estado de un sistema permiten determinar si el sistema es determinístico o probabilístico.",
+        "respuesta": "Falso. La naturaleza probabilística o determinística la definen las variables de entrada, no las variables de estado."
+    },
+    {
+        "pregunta": "40. La simulación es una metodología que permite dar resultados numéricamente óptimos en una situación de toma de decisiones.",
+        "respuesta": "Falso. La simulación brinda estimaciones estadísticas para comparar opciones operativas, pero no entrega soluciones matemáticas óptimas absolutas."
+    },
+    {
+        "pregunta": "41. La generación de números aleatorios permite obtener muestras válidas tanto para las entradas como para las salidas de la simulación.",
+        "respuesta": "Falso. Solo se usan para generar el muestreo de variables de entrada; las salidas se calculan procesando el modelo y requieren estadística analítica."
+    },
+    {
+        "pregunta": "42. La 'Visión del Mundo' es una manera de concebir el sistema real y todos los sistemas se pueden plasmar en cualquiera de las visiones.",
+        "respuesta": "Falso. Las visiones enseñadas aplican exclusivamente para sistemas dinámicos de eventos discretos, no para continuos ni estáticos."
+    },
+    {
+        "pregunta": "43. El avance del tiempo variable es útil solo para sistemas probabilísticos.",
+        "respuesta": "Falso. Es un mecanismo eficiente para cualquier sistema de eventos discretos que evita saltos improductivos del reloj, sea determinístico o probabilístico."
+    },
+    {
+        "pregunta": "44. 'La verificación de un modelo consiste en comprobar que exista una correspondencia exacta entre el modelo computacional y el sistema real.'",
+        "respuesta": "Falso. Esa definición corresponde a la etapa de Validación; la verificación se acota a corroborar que no haya fallas lógicas en el código computacional."
+    },
+    {
+        "pregunta": "45. 'Si un problema organizacional puede ser resuelto analíticamente mediante ecuaciones matemáticas exactas, es preferible utilizar simulación para obtener un resultado más detallado.'",
+        "respuesta": "Falso. Nunca se debe utilizar simulación si el problema puede resolverse a través de una fórmula matemática exacta y analítica."
+    },
+    {
+        "pregunta": "46. 'En una computadora, es posible obtener una secuencia de números puramente aleatorios para modelar las variables de entrada estocásticas.'",
+        "respuesta": "Falso. Una máquina lógica no puede generar azar puro, genera números pseudoaleatorios basados en algoritmos matemáticos condicionados a una semilla."
+    },
+    {
+        "pregunta": "47. 'En la política de inventario de revisión continua, la cantidad a ordenar al proveedor varía dependiendo del nivel de stock que haya en el momento de realizar el pedido.'",
+        "respuesta": "Falso. En la política continua se solicita siempre una cantidad estricta y predefinida (Q); las cantidades que varían corresponden a la revisión periódica."
+    },
+    {
+        "pregunta": "48. El escaneo de actividades es una visión del mundo que se asocia inherentemente al avance del tiempo con reloj variable.",
+        "respuesta": "Falso. La visión de escaneo de actividades funciona analizando condiciones bajo un avance de reloj por pasos fijos y constantes."
+    },
+    {
+        "pregunta": "49. En un sistema de teoría de decisiones, la incertidumbre ocurre cuando se conocen las probabilidades de los resultados alternos que pueden ocurrir.",
+        "respuesta": "Falso. Cuando se conocen las probabilidades asociadas a los resultados hablamos de riesgo, la incertidumbre carece por completo de asignación probabilística."
+    },
+    {
+        "pregunta": "50. El costo por faltante en un sistema de inventarios incluye los costos tangibles por no tener el producto, pero excluye conceptos subjetivos como la insatisfacción del cliente.",
+        "respuesta": "Falso. El déficit contempla todos los daños, incluyendo los perjuicios subjetivos e intangibles como perder al cliente a futuro."
+    },
+    {
+        "pregunta": "51. En una simulación con avance de reloj de paso constante (Δt), se asume que dos eventos pueden ocurrir simultáneamente en el mismo intervalo de tiempo exacto.",
+        "respuesta": "Falso. La regla es configurar el salto (Δt) lo suficientemente microscópico para asegurar que ocurra, como máximo, un solo evento por intervalo temporal."
+    },
+    {
+        "pregunta": "52. Un modelo de simulación dinámico y estocástico generará la misma salida exacta cada vez que se ejecute si no se alteran sus parámetros de entrada.",
+        "respuesta": "Falso. La esencia estocástica garantiza que ejecuciones repetidas arrojarán outputs variados y diferentes por la injerencia del azar en los eventos."
     }
 ]

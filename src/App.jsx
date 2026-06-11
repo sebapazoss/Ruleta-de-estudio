@@ -4,6 +4,7 @@ import confetti from 'canvas-confetti';
 import { DEFAULT_PLAYERS, DEFAULT_QUESTIONS } from './mockData';
 import ConfigurationScreen from './components/ConfigurationScreen';
 import GameScreen from './components/GameScreen';
+import Podium from './components/Podium';
 import { HelpCircle, AlertCircle, CheckCircle2, Info, AlertTriangle } from 'lucide-react';
 import { playVictorySound, playFailureSound } from './utils/audio';
 
@@ -70,6 +71,27 @@ export default function App() {
     showNotification('¡Juego iniciado! Buena suerte.', 'success');
   };
 
+  const handleRestartSameConfig = () => {
+    setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
+    setQuestions(prev => prev.map(q => ({ ...q, used: false })));
+    setActivePlayerIndex(0);
+    setGameState('wheel');
+    setActivePlayer(null);
+    setActiveQuestion(null);
+    setView('game');
+    showNotification('¡Juego reiniciado con el mismo grupo!', 'success');
+  };
+
+  const handleGoToConfigReset = () => {
+    setPlayers(prev => prev.map(p => ({ ...p, score: 0 })));
+    setQuestions(prev => prev.map(q => ({ ...q, used: false })));
+    setActivePlayerIndex(0);
+    setGameState('wheel');
+    setActivePlayer(null);
+    setActiveQuestion(null);
+    setView('config');
+  };
+
   // Called when the user clicks the Spin button
   const handleSpinStart = (winnerQuestion, winnerPlayer) => {
     setIsSpinning(true);
@@ -96,21 +118,7 @@ export default function App() {
 
   // Evaluation Handler (Correct/Incorrect)
   const handleEvaluate = (playerId, questionId, isCorrect) => {
-    // 1. Mark question as used
-    setQuestions(prevQuestions => {
-      const updated = prevQuestions.map(q => (q.id === questionId ? { ...q, used: true } : q));
-      const unusedCount = updated.filter(q => !q.used).length;
-      
-      if (unusedCount === 0) {
-        setTimeout(() => {
-          showNotification('¡Se han agotado todas las preguntas! Restableciendo el banco.', 'success');
-        }, 300);
-        return updated.map(q => ({ ...q, used: false }));
-      }
-      return updated;
-    });
-
-    // 2. Add score if correct
+    // 1. Add score if correct
     if (isCorrect) {
       setPlayers(prevPlayers =>
         prevPlayers.map(p => (p.id === playerId ? { ...p, score: p.score + 1 } : p))
@@ -125,6 +133,19 @@ export default function App() {
       // Play failure sound
       playFailureSound();
     }
+
+    // 2. Mark question as used and check if all are used
+    setQuestions(prevQuestions => {
+      const updated = prevQuestions.map(q => (q.id === questionId ? { ...q, used: true } : q));
+      const unusedCount = updated.filter(q => !q.used).length;
+      
+      if (unusedCount === 0) {
+        setTimeout(() => {
+          setView('podium');
+        }, 1200);
+      }
+      return updated;
+    });
 
     // 3. Advance to next player sequentially
     setActivePlayerIndex(prev => (prev + 1) % players.length);
@@ -169,6 +190,30 @@ export default function App() {
     } else {
       showNotification(`${playerToRemove.name} se retiró del juego.`, 'info');
     }
+  };
+
+  // Mid-game player late arrival handler
+  const handleAddPlayerMidGame = (name) => {
+    const trimmed = name.trim();
+    if (!trimmed) return false;
+
+    // Helper to clean name from clock/time emojis for duplicate check
+    const cleanName = (n) => n.replace(/⏰|🕒|🕰️/g, '').trim().toLowerCase();
+    
+    if (players.some(p => cleanName(p.name) === trimmed.toLowerCase())) {
+      showNotification('¡Ese nombre ya existe!', 'error');
+      return false;
+    }
+
+    const newPlayer = {
+      id: Date.now().toString(),
+      name: `${trimmed} ⏰`,
+      score: -1
+    };
+
+    setPlayers(prev => [...prev, newPlayer]);
+    showNotification(`¡${newPlayer.name} se unió tarde con -1 punto!`, 'success');
+    return true;
   };
 
   const triggerConfetti = () => {
@@ -225,7 +270,7 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col justify-center relative z-10">
-        {view === 'config' ? (
+        {view === 'config' && (
           <ConfigurationScreen
             players={players}
             setPlayers={setPlayers}
@@ -235,7 +280,8 @@ export default function App() {
             resetToDefault={handleOpenResetModal}
             showNotification={showNotification}
           />
-        ) : (
+        )}
+        {view === 'game' && (
           <GameScreen
             players={players}
             questions={questions}
@@ -247,10 +293,18 @@ export default function App() {
             onSpinComplete={handleSpinComplete}
             onPass={handlePass}
             onEvaluate={handleEvaluate}
-            onGoToConfig={() => setView('config')}
+            onGoToConfig={handleGoToConfigReset}
             answeredCount={answeredCount}
             onRemovePlayer={handleRemovePlayerMidGame}
+            onAddPlayer={handleAddPlayerMidGame}
             nextPlayer={players.length > 0 ? players[activePlayerIndex % players.length] : null}
+          />
+        )}
+        {view === 'podium' && (
+          <Podium
+            players={players}
+            onRestartSame={handleRestartSameConfig}
+            onGoToConfig={handleGoToConfigReset}
           />
         )}
       </main>
