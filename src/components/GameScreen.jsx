@@ -1,5 +1,4 @@
 import React from 'react';
-import { ArrowLeft, BookOpen, RotateCcw } from 'lucide-react';
 import Leaderboard from './Leaderboard';
 import RouletteWheel from './RouletteWheel';
 import QuestionCard from './QuestionCard';
@@ -24,37 +23,39 @@ export default function GameScreen({
   const totalQuestions = questions.length;
   
   return (
-    <div className="max-w-7xl mx-auto px-4 py-3">
+    <div className="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-2 flex-grow flex flex-col">
       {/* Game Header */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4 pb-2 border-b border-slate-800">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-row items-center justify-between gap-base mb-sm pb-xs border-b border-white/10">
+        <div className="flex items-center gap-base">
           <button
             onClick={onGoToConfig}
-            className="p-2 rounded-xl border border-slate-700 hover:border-slate-600 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+            className="p-1.5 bg-transparent border border-white/10 text-outline hover:text-secondary rounded-md transition-colors cursor-pointer flex items-center justify-center"
             title="Volver a Configuración"
           >
-            <ArrowLeft className="w-5 h-5" />
+            <span className="material-symbols-outlined text-base">arrow_back</span>
           </button>
           <div>
-            <h1 className="text-2xl font-black bg-gradient-to-r from-violet-400 to-fuchsia-400 bg-clip-text text-transparent">
-              Ruleta de Estudio
-            </h1>
-            <p className="text-xs text-slate-500 font-semibold">PARTIDA EN CURSO</p>
+            <h2 className="text-sm font-bold text-on-surface leading-tight">
+              Sesión de Juego
+            </h2>
+            <p className="font-data-sm text-[9px] text-outline uppercase tracking-wider">
+              Partida en curso
+            </p>
           </div>
         </div>
 
         {/* Progress indicators */}
-        <div className="flex items-center gap-4 bg-slate-800/40 px-4 py-2.5 rounded-2xl border border-slate-800/80">
-          <div className="flex items-center gap-2">
-            <BookOpen className="w-4 h-4 text-violet-400" />
-            <span className="text-sm font-semibold text-slate-300">
-              Preguntas: <span className="text-violet-400 font-bold">{answeredCount} / {totalQuestions}</span>
+        <div className="flex items-center gap-3 bg-white/5 px-3 py-1 rounded-lg border border-white/5">
+          <div className="flex items-center gap-1.5">
+            <span className="material-symbols-outlined text-xs text-secondary">menu_book</span>
+            <span className="text-xs font-semibold text-slate-300">
+              Preguntas: <span className="text-secondary font-bold font-mono">{answeredCount} / {totalQuestions}</span>
             </span>
           </div>
           {/* Progress bar */}
-          <div className="w-24 h-2 bg-slate-950 rounded-full overflow-hidden">
+          <div className="w-20 h-1.5 bg-black/40 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-violet-500 to-fuchsia-500 transition-all duration-500"
+              className="h-full bg-gradient-to-r from-secondary to-primary transition-all duration-500"
               style={{ width: `${(answeredCount / totalQuestions) * 100}%` }}
             ></div>
           </div>
@@ -62,51 +63,40 @@ export default function GameScreen({
       </div>
 
       {/* Main Grid Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-gutter items-start flex-grow">
         {/* Left Side: Scoreboard / Leaderboard */}
-        <div className="lg:col-span-1 order-2 lg:order-1">
+        <aside className="md:col-span-5 lg:col-span-4 min-w-[300px] flex flex-col gap-sm">
           <Leaderboard players={players} onRemovePlayer={onRemovePlayer} onAddPlayer={onAddPlayer} />
-        </div>
+        </aside>
 
-        {/* Right Side: Primary Play Area */}
-        <div className="lg:col-span-2 order-1 lg:order-2 flex flex-col justify-center min-h-[390px]">
-          {gameState === 'wheel' ? (
-            <div className="flex flex-col items-center justify-center bg-slate-800/20 rounded-2xl border border-slate-800 p-4 shadow-lg min-h-[390px]">
-              <div className="text-center mb-2">
-                <span className="text-xs font-bold text-violet-400 uppercase tracking-widest bg-violet-500/10 px-3 py-1 rounded-full border border-violet-500/20">
-                  Fase de Selección
-                </span>
-                <h3 className="text-lg font-bold text-slate-200 mt-2">
-                  Le toca girar a: <span className="text-violet-400 font-extrabold">{nextPlayer?.name}</span>
-                </h3>
-              </div>
-              <RouletteWheel
-                players={players}
-                questions={questions}
-                onSpinStart={onSpinStart}
-                onSpinComplete={onSpinComplete}
-                isSpinning={isSpinning}
-                nextPlayer={nextPlayer}
-              />
-            </div>
-          ) : (
-            <div className="flex items-center justify-center min-h-[390px]">
-              {activePlayer && activeQuestion && (
-                <div className="w-full">
-                  <QuestionCard
-                    player={activePlayer}
-                    question={activeQuestion}
-                    onPass={onPass}
-                    onEvaluate={onEvaluate}
-                    questionNumber={answeredCount + 1}
-                    totalQuestions={totalQuestions}
-                  />
-                </div>
-              )}
-            </div>
-          )}
-        </div>
+        {/* Right Side: Primary Play Area (Always keep RouletteWheel mounted) */}
+        <section className="md:col-span-7 lg:col-span-8 flex flex-col items-center justify-center relative min-h-[320px]">
+          <div className="absolute top-0 right-0 font-label-caps text-[8px] text-outline/30 flex items-center gap-xs pointer-events-none">
+            <span className="material-symbols-outlined text-[10px]">sensors</span>
+            SYSTEM_ID: GAME_INSTANCE_V4
+          </div>
+          <RouletteWheel
+            players={players}
+            questions={questions}
+            onSpinStart={onSpinStart}
+            onSpinComplete={onSpinComplete}
+            isSpinning={isSpinning}
+            nextPlayer={nextPlayer}
+          />
+        </section>
       </div>
+
+      {/* Active Turn Question Overlay Modal */}
+      {gameState === 'turn' && activePlayer && activeQuestion && (
+        <QuestionCard
+          player={activePlayer}
+          question={activeQuestion}
+          onPass={onPass}
+          onEvaluate={onEvaluate}
+          questionNumber={answeredCount + 1}
+          totalQuestions={totalQuestions}
+        />
+      )}
     </div>
   );
 }

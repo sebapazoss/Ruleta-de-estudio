@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ruleta de Estudio - Juego</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#201f22",
+                        "secondary-container": "#03b5d3",
+                        "on-primary-fixed": "#23005c",
+                        "tertiary-fixed": "#acf847",
+                        "on-background": "#e5e1e4",
+                        "on-error": "#690005",
+                        "primary-fixed": "#e9ddff",
+                        "surface": "#131315",
+                        "surface-dim": "#131315",
+                        "surface-container-high": "#2a2a2c",
+                        "outline": "#958ea0",
+                        "on-secondary-fixed": "#001f26",
+                        "on-primary-container": "#340080",
+                        "primary-fixed-dim": "#d0bcff",
+                        "tertiary-fixed-dim": "#91db2a",
+                        "error-container": "#93000a",
+                        "on-surface": "#e5e1e4",
+                        "inverse-primary": "#6d3bd7",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-tertiary-fixed": "#102000",
+                        "primary": "#d0bcff",
+                        "outline-variant": "#494454",
+                        "inverse-surface": "#e5e1e4",
+                        "on-tertiary-fixed-variant": "#304f00",
+                        "surface-container-highest": "#353437",
+                        "secondary": "#4cd7f6",
+                        "surface-tint": "#d0bcff",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "surface-bright": "#39393b",
+                        "on-primary": "#3c0091",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "background": "#131315",
+                        "on-tertiary": "#1f3700",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#65a100",
+                        "surface-container-low": "#1c1b1d",
+                        "on-secondary-container": "#00424e",
+                        "inverse-on-surface": "#313032",
+                        "on-surface-variant": "#cbc3d7",
+                        "on-secondary": "#003640",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#acedff",
+                        "on-primary-fixed-variant": "#5516be",
+                        "primary-container": "#a078ff",
+                        "on-tertiary-container": "#1a2f00",
+                        "tertiary": "#91db2a",
+                        "surface-variant": "#353437"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "48px",
+                        "base": "8px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "sm": "12px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "data-lg": ["JetBrains Mono"],
+                        "data-sm": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "data-lg": ["20px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "data-sm": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #09090b;
+            color: #e5e1e4;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+        }
+
+        .neon-cyan-glow {
+            box-shadow: 0 0 20px rgba(76, 215, 246, 0.3);
+        }
+
+        .neon-violet-glow {
+            box-shadow: 0 0 20px rgba(208, 188, 255, 0.3);
+        }
+
+        .neon-violet-intense {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .roulette-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            transition: transform 4s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+
+        .roulette-segment {
+            position: absolute;
+            width: 50%;
+            height: 50%;
+            transform-origin: 100% 100%;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .floating {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            pointer-events: none;
+            opacity: 0.15;
+            filter: blur(1px);
+        }
+    </style>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <!-- Background Atmospheric Particles -->
+    <div class="fixed inset-0 z-0" id="particle-container"></div>
+    <div class="fixed inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(139,92,246,0.1),transparent_50%)] z-0"></div>
+    <div class="fixed inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(76,215,246,0.1),transparent_50%)] z-0"></div>
+    <!-- Top Navigation Header -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/30 backdrop-blur-xl border-b border-white/10 shadow-[0_0_20px_rgba(76,215,246,0.1)] flex justify-between items-center px-margin-mobile h-16 md:px-margin-desktop">
+        <div class="flex items-center gap-base">
+            <span class="material-symbols-outlined text-secondary">menu</span>
+            <h1
+                class="font-headline-lg-mobile text-headline-lg-mobile md:text-headline-lg font-bold text-secondary tracking-tighter">
+                Ruleta de estudio</h1>
+        </div>
+        <div class="flex items-center gap-md">
+            <div class="hidden md:flex gap-md font-label-caps text-label-caps text-outline uppercase tracking-widest">
+                <a class="hover:text-secondary transition-colors" href="#">Sesión</a>
+                <a class="text-secondary" href="#">Modo Juego</a>
+                <a class="hover:text-secondary transition-colors" href="#">Ajustes</a>
+            </div>
+            <span
+                class="material-symbols-outlined text-secondary active:scale-95 duration-200 cursor-pointer">account_circle</span>
+        </div>
+    </header>
+    <!-- Main Game Layout -->
+    <main
+        class="relative z-10 pt-24 pb-24 px-margin-mobile md:px-margin-desktop min-h-screen grid grid-cols-1 md:grid-cols-12 gap-gutter max-w-[1600px] mx-auto">
+        <!-- Left: Participants Scoreboard -->
+        <aside class="md:col-span-4 lg:col-span-3 flex flex-col gap-md">
+            <div class="flex flex-col gap-base">
+                <span
+                    class="font-label-caps text-label-caps text-secondary-container tracking-widest flex items-center gap-xs">
+                    <span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+                    PARTICIPANTES EN VIVO
+                </span>
+                <h2 class="font-headline-lg-mobile text-headline-lg-mobile font-bold">Puntajes</h2>
+            </div>
+            <div class="flex flex-col gap-base">
+                <!-- Participant Card 1 -->
+                <div
+                    class="glass-panel p-md flex items-center justify-between border-l-4 border-primary neon-violet-glow transition-all hover:translate-x-2">
+                    <div class="flex items-center gap-base">
+                        <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
+                            <img alt="Felix" class="w-full h-full object-cover"
+                                data-alt="A futuristic 3D avatar profile picture of a young male student with digital glasses and glowing accents, set against a dark atmospheric purple background with neon blue light streaks in a high-quality glassmorphism style."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCo5LbRwKeHZv9s17tqQg03mVDNGNRKpKoLe1fzzmaOMguGx647wGVYDcj7_F3xYUNu89bsZpUfhjok3d1u7xzpJWuZxuK5vLnINW3e88sWuJuKTt_qnhWwHl5bwcKy_Hdrxlcv7fP0WpfBSh2C1cVccj_QGU2HLdiFKSjV-k0l0VS6QvMJ0IF90aQVH8USojAqQi5W-gdZY_yzIwi_o7HbiwvyQVe8nmP0ZuAmEqoDJX3794u44kO8jZUtBWX10WQnrUbxRWfFaVDU" />
+                        </div>
+                        <div>
+                            <p class="font-body-md text-body-md font-bold">Estudiante Pro</p>
+                            <p class="font-data-sm text-data-sm text-outline">Nivel 15 • Activo</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-data-lg text-data-lg text-primary">1,250</span>
+                        <p class="font-label-caps text-[10px] text-outline uppercase tracking-tighter">PTS</p>
+                    </div>
+                </div>
+                <!-- Participant Card 2 -->
+                <div
+                    class="glass-panel p-md flex items-center justify-between border-l-4 border-transparent opacity-70 transition-all hover:opacity-100">
+                    <div class="flex items-center gap-base">
+                        <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
+                            <img alt="Aria" class="w-full h-full object-cover"
+                                data-alt="A highly detailed 3D digital avatar of a female student with sleek futuristic headphones and subtle bioluminescent facial markings, rendered in a cinematic dark tech aesthetic with vibrant cyan lighting and soft focus depth."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9slwcCV2BWxmB2EsMfpGmpbnLb3XsEx5OOsiudb4HF6GhLOPOB4WdWktlHkaRGdDQSxkdc5Uc6gbi9JH6Mn_QX-xL9InG8BNxYD2b3WdsWTpsMHBWLDxQgIVZyBw5x3kBU12w4cKcS24fnFGqA-iuAfuSBinH8p74CVjEENiHEAcnvLpqXYyAZN9Hky3ir5hY3P5nVULSH5w_9MQ8NZ0VPlVoni333dj2Hb04d_AJnF5k-J0rXqIoX5sAWf5E1_FVVGP84NOfKwY3" />
+                        </div>
+                        <div>
+                            <p class="font-body-md text-body-md">CyberLover_92</p>
+                            <p class="font-data-sm text-data-sm text-outline">Nivel 08 • Esperando</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-data-lg text-data-lg text-on-surface-variant">980</span>
+                        <p class="font-label-caps text-[10px] text-outline uppercase tracking-tighter">PTS</p>
+                    </div>
+                </div>
+                <!-- Participant Card 3 -->
+                <div
+                    class="glass-panel p-md flex items-center justify-between border-l-4 border-transparent opacity-70 transition-all hover:opacity-100">
+                    <div class="flex items-center gap-base">
+                        <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
+                            <img alt="Zero" class="w-full h-full object-cover"
+                                data-alt="A professional digital portrait of a gamer avatar with metallic skin textures and vibrant violet eyes, wearing a tech-wear collar in a dark futuristic environment filled with volumetric lighting and floating data particles."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaqPEm47NBLMDdIEv0zvV9TEfZ-5rYiGyd3jJVOgXpIyAn9ifxJ1RQ9ZF_HRhb2UkqIx0m1LsEVsGJ1S-KvKSgcvv2nb-x9syikux37LX187lp7ShXiJwmIc6Exgr42xMHWsfZQJ45fGUDF41MQYdGT95a44zICK3jlKHU49hkoyt9FzLR8QL9CD3qSu2IlKoRGagQqQEJpLV1LWkBJaeuvQXLBoTiP8UZbVC11wTa5W5I89p44Y6mNxIkUUkwa1EtXmYnrlFNFxft" />
+                        </div>
+                        <div>
+                            <p class="font-body-md text-body-md">Zero_Master</p>
+                            <p class="font-data-sm text-data-sm text-outline">Nivel 12 • Fuera</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span class="font-data-lg text-data-lg text-on-surface-variant">450</span>
+                        <p class="font-label-caps text-[10px] text-outline uppercase tracking-tighter">PTS</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- Center/Right: Interactive Roulette Area -->
+        <section class="md:col-span-8 lg:col-span-9 flex flex-col items-center justify-center relative">
+            <div
+                class="absolute top-0 right-0 font-label-caps text-label-caps text-outline/50 flex items-center gap-xs">
+                <span class="material-symbols-outlined text-[14px]">sensors</span>
+                SYSTEM_ID: GAME_INSTANCE_V4
+            </div>
+            <!-- The Roulette Body -->
+            <div class="relative w-full max-w-[500px] aspect-square flex items-center justify-center">
+                <!-- Outer Ring Glow -->
+                <div
+                    class="absolute inset-0 rounded-full border-[12px] border-surface-container-high/40 shadow-[0_0_50px_rgba(76,215,246,0.2)]">
+                </div>
+                <!-- The Wheel -->
+                <div class="roulette-container rounded-full overflow-hidden border-4 border-secondary/30 relative"
+                    id="roulette-wheel">
+                    <!-- Segment 1 -->
+                    <div class="roulette-segment bg-primary/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(0deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-primary">BIO</span>
+                    </div>
+                    <!-- Segment 2 -->
+                    <div class="roulette-segment bg-secondary/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(45deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-secondary">HIS</span>
+                    </div>
+                    <!-- Segment 3 -->
+                    <div class="roulette-segment bg-tertiary/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(90deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-tertiary">MAT</span>
+                    </div>
+                    <!-- Segment 4 -->
+                    <div class="roulette-segment bg-error/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(135deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-error">ENG</span>
+                    </div>
+                    <!-- Segment 5 -->
+                    <div class="roulette-segment bg-primary/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(180deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-primary">LIT</span>
+                    </div>
+                    <!-- Segment 6 -->
+                    <div class="roulette-segment bg-secondary/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(225deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-secondary">ART</span>
+                    </div>
+                    <!-- Segment 7 -->
+                    <div class="roulette-segment bg-tertiary/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(270deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-tertiary">PHY</span>
+                    </div>
+                    <!-- Segment 8 -->
+                    <div class="roulette-segment bg-error/20 flex items-center justify-center border-r border-white/10"
+                        style="transform: rotate(315deg) skew(45deg);">
+                        <span
+                            class="absolute -rotate-45 transform translate-x-12 translate-y-12 font-data-lg text-error">QUI</span>
+                    </div>
+                </div>
+                <!-- Center Point -->
+                <button
+                    class="absolute z-20 w-24 h-24 rounded-full bg-surface-container-high border-4 border-secondary flex flex-col items-center justify-center neon-cyan-glow group active:scale-90 transition-transform"
+                    onclick="spinWheel()">
+                    <span
+                        class="material-symbols-outlined text-secondary text-3xl group-hover:animate-spin">casino</span>
+                    <span class="font-label-caps text-secondary text-[10px] font-bold">GIRAR</span>
+                </button>
+                <!-- Indicator Needle -->
+                <div class="absolute -top-6 z-20 text-secondary drop-shadow-[0_0_10px_rgba(76,215,246,0.8)]">
+                    <span class="material-symbols-outlined text-4xl"
+                        style="font-variation-settings: 'FILL' 1;">arrow_drop_down</span>
+                </div>
+            </div>
+            <!-- Stats Overlay -->
+            <div class="mt-xl flex gap-gutter">
+                <div class="text-center">
+                    <p class="font-label-caps text-outline text-xs uppercase tracking-widest">TIEMPO RESTANTE</p>
+                    <p class="font-data-lg text-headline-lg-mobile text-secondary tracking-tighter">00:45</p>
+                </div>
+                <div class="w-px h-10 bg-white/10"></div>
+                <div class="text-center">
+                    <p class="font-label-caps text-outline text-xs uppercase tracking-widest">BONUS ACTIVO</p>
+                    <p class="font-data-lg text-headline-lg-mobile text-tertiary tracking-tighter">X2.5</p>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Modal: Example Question -->
+    <div class="fixed inset-0 z-[100] flex items-center justify-center p-margin-mobile bg-black/60 backdrop-blur-md"
+        id="modal-question">
+        <div class="glass-panel max-w-2xl w-full p-lg flex flex-col gap-md relative overflow-hidden">
+            <!-- Decorative Tag -->
+            <div
+                class="absolute top-0 right-0 bg-secondary/10 px-md py-sm border-b border-l border-white/10 rounded-bl-xl font-label-caps text-secondary">
+                META_TAG: CATEGORIA_BIO
+            </div>
+            <div class="flex items-center gap-base">
+                <span class="material-symbols-outlined text-secondary"
+                    style="font-variation-settings: 'FILL' 1;">help</span>
+                <h3 class="font-headline-lg text-headline-lg font-bold">Pregunta de Ejemplo</h3>
+            </div>
+            <p class="font-body-md text-body-md leading-relaxed text-on-surface-variant">
+                ¿Cuál es la función principal de las mitocondrias dentro de una célula eucariota y cómo contribuye esto
+                al metabolismo general del organismo? Explique brevemente el proceso de respiración celular.
+            </p>
+            <!-- Action Buttons -->
+            <div class="flex flex-col md:flex-row gap-base mt-md">
+                <button
+                    class="flex-1 px-md py-base rounded-xl bg-transparent border border-secondary text-secondary font-label-caps text-label-caps uppercase tracking-widest hover:bg-secondary/10 transition-colors"
+                    onclick="closeModal()">
+                    Pasar turno
+                </button>
+                <button
+                    class="flex-1 px-md py-base rounded-xl bg-primary text-on-primary font-label-caps text-label-caps uppercase tracking-widest neon-violet-glow hover:neon-violet-intense transition-all active:scale-95 duration-200">
+                    Ver respuesta
+                </button>
+            </div>
+            <!-- Technical footer -->
+            <div class="mt-base pt-base border-t border-white/10 flex justify-between">
+                <span class="font-data-sm text-data-sm text-outline">Q_HASH: 0x8F2A...9C1</span>
+                <span class="font-data-sm text-data-sm text-primary">+200 PUNTOS</span>
+            </div>
+        </div>
+    </div>
+    <!-- Bottom Navigation Bar (Mobile View) -->
+    <nav
+        class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container/20 backdrop-blur-2xl border-t border-white/5 flex justify-around items-center h-20 px-4 pb-2 shadow-[0_-4px_20px_rgba(208,188,255,0.15)]">
+        <div class="flex flex-col items-center justify-center text-outline-variant">
+            <span class="material-symbols-outlined">home</span>
+            <span class="font-label-caps text-label-caps">Inicio</span>
+        </div>
+        <div
+            class="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-xl px-4 py-1 shadow-[0_0_15px_rgba(208,188,255,0.3)]">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">casino</span>
+            <span class="font-label-caps text-label-caps">Juego</span>
+        </div>
+        <div class="flex flex-col items-center justify-center text-outline-variant">
+            <span class="material-symbols-outlined">emoji_events</span>
+            <span class="font-label-caps text-label-caps">Podio</span>
+        </div>
+    </nav>
+    <script>
+        // Particle Background Logic
+        const container = document.getElementById('particle-container');
+        for (let i = 0; i < 50; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const size = Math.random() * 3 + 1;
+            p.style.width = `${size}px`;
+            p.style.height = `${size}px`;
+            p.style.left = `${Math.random() * 100}vw`;
+            p.style.top = `${Math.random() * 100}vh`;
+            p.style.animation = `float ${Math.random() * 10 + 10}s linear infinite`;
+            container.appendChild(p);
+        }
+
+        // Roulette Logic
+        let rotation = 0;
+        function spinWheel() {
+            const wheel = document.getElementById('roulette-wheel');
+            const randomSpin = Math.floor(Math.random() * 360) + 1440; // At least 4 full rotations
+            rotation += randomSpin;
+            wheel.style.transform = `rotate(${rotation}deg)`;
+
+            // Re-open modal after spin is done (simulated delay)
+            setTimeout(() => {
+                document.getElementById('modal-question').classList.remove('hidden');
+                document.getElementById('modal-question').classList.add('flex');
+            }, 4200);
+        }
+
+        // Modal Logic
+        function closeModal() {
+            const modal = document.getElementById('modal-question');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Interaction for participants (demo)
+        document.querySelectorAll('.glass-panel').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+
+</html>

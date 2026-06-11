@@ -1,19 +1,27 @@
-import React, { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Trophy, RotateCcw, Home, Award, Crown, User, Star } from 'lucide-react';
+import { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 
 export default function Podium({ players, onRestartSame, onGoToConfig }) {
-  // Sort unique scores descending
-  const uniqueScores = [...new Set(players.map(p => p.score))].sort((a, b) => b - a);
+  // Sort unique scores descending, strictly greater than 0
+  const uniqueScores = [...new Set(players.map(p => p.score))]
+    .filter(score => score > 0)
+    .sort((a, b) => b - a);
 
   // Group players by ranking based on unique scores (Dense Ranking)
   const firstPlace = uniqueScores.length > 0 ? players.filter(p => p.score === uniqueScores[0]) : [];
   const secondPlace = uniqueScores.length > 1 ? players.filter(p => p.score === uniqueScores[1]) : [];
   const thirdPlace = uniqueScores.length > 2 ? players.filter(p => p.score === uniqueScores[2]) : [];
 
-  // Other players (Rank 4 and below)
-  const podiumIds = new Set([...firstPlace, ...secondPlace, ...thirdPlace].map(p => p.id));
+  // All players on the podium
+  const podiumIds = new Set([
+    ...firstPlace.map(p => p.id),
+    ...secondPlace.map(p => p.id),
+    ...thirdPlace.map(p => p.id)
+  ]);
+
+  // Count how many players qualified and occupy the podium
+  const podiumCount = firstPlace.length + secondPlace.length + thirdPlace.length;
+
   const otherPlayers = players
     .filter(p => !podiumIds.has(p.id))
     .sort((a, b) => b.score - a.score);
@@ -36,7 +44,6 @@ export default function Podium({ players, onRestartSame, onGoToConfig }) {
       }
 
       const particleCount = 50 * (timeLeft / duration);
-      // since particles fall down, animate a bit higher than random
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
       confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
     }, 250);
@@ -45,193 +52,196 @@ export default function Podium({ players, onRestartSame, onGoToConfig }) {
   }, []);
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col items-center">
-      {/* Celebration Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center mb-10"
-      >
-        <div className="inline-flex p-3 bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20 mb-4 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
-          <Trophy className="w-10 h-10 animate-bounce" />
-        </div>
-        <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-amber-400 via-fuchsia-400 to-violet-400 bg-clip-text text-transparent drop-shadow-md">
-          ¡Ronda Finalizada!
+    <div className="flex-grow pt-2 pb-16 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full relative">
+      {/* Header Section */}
+      <header className="text-center mb-12">
+        <h1 className="font-display-lg text-display-lg text-primary mb-xs uppercase tracking-widest text-[22px]">
+          Podio Final
         </h1>
-        <p className="text-slate-400 mt-2 text-base md:text-lg font-medium">
-          Resultados finales del grupo de estudio
+        <p className="text-on-surface-variant font-data-sm text-[10px]">
+          RESULTADOS DE LA SESIÓN DE ESTUDIO COMPETITIVA
         </p>
-      </motion.div>
+      </header>
 
-      {/* Visual Podium */}
-      <div className="w-full grid grid-cols-3 gap-3 md:gap-6 items-end justify-center min-h-[320px] max-w-2xl mb-10 mt-4 px-2">
-        
+      {/* Visual Podium Section */}
+      <section className="grid grid-cols-3 items-end gap-base md:gap-gutter mb-md relative max-w-4xl mx-auto px-4">
         {/* 2nd Place - Left */}
         <div className="flex flex-col items-center">
-          <div className="mb-2 text-center max-w-full">
-            {secondPlace.length > 0 ? (
-              secondPlace.map(p => (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.5, type: 'spring' }}
-                  key={p.id}
-                  className="bg-slate-800/80 border border-slate-700 px-2.5 py-1 rounded-xl shadow-md mb-1.5"
-                >
-                  <p className="font-bold text-xs md:text-sm text-slate-200 truncate">{p.name}</p>
-                  <span className="text-[10px] md:text-xs font-semibold text-slate-400">{p.score} pts</span>
-                </motion.div>
-              ))
-            ) : (
-              <span className="text-xs text-slate-600 font-semibold italic">Vacante</span>
-            )}
-          </div>
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: 120 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
-            className="w-full bg-gradient-to-t from-slate-900/90 to-slate-800/80 border-t-4 border-slate-400 rounded-t-2xl shadow-xl flex flex-col items-center justify-between py-4 min-w-[70px] relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-slate-400/5 pointer-events-none"></div>
-            <Award className="w-8 h-8 text-slate-400 drop-shadow-[0_0_8px_rgba(148,163,184,0.3)]" />
-            <div className="text-center z-10">
-              <span className="text-3xl md:text-4xl font-black text-slate-400">2°</span>
-              <p className="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1">Plata</p>
+          {secondPlace.length > 0 ? (
+            <>
+              <div className="relative z-10 mb-xs animate-float" style={{ animationDelay: '0.5s' }}>
+                <div className="flex -space-x-3 items-center justify-center">
+                  {secondPlace.map(player => (
+                    <div key={player.id} className="relative w-12 h-12 md:w-16 md:h-16 rounded-full border border-slate-400 overflow-hidden neon-silver p-0.5 bg-surface-container flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-slate-400 text-2xl md:text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        person
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-slate-400 text-surface font-bold w-5 h-5 md:w-6 md:h-6 rounded-full flex items-center justify-center text-xs z-20">
+                  2
+                </div>
+              </div>
+              <div className="glass-panel w-full h-20 md:h-28 rounded-t-lg flex flex-col items-center justify-center border-b-0 py-1">
+                <div className="flex flex-col items-center gap-0.5 w-full px-1 overflow-y-auto max-h-12">
+                  {secondPlace.map(player => (
+                    <span key={player.id} className="text-xs text-on-surface truncate w-full text-center font-semibold">
+                      {player.name}
+                    </span>
+                  ))}
+                </div>
+                <span className="font-label-caps text-[10px] text-secondary mt-0.5">
+                  {secondPlace[0].score} PTS
+                </span>
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-20 md:h-28 opacity-20 flex items-center justify-center font-body-md text-[10px] italic text-outline border border-dashed border-white/10 rounded-t-lg">
+              Vacante
             </div>
-          </motion.div>
+          )}
         </div>
 
         {/* 1st Place - Center */}
         <div className="flex flex-col items-center">
-          <div className="mb-3 text-center max-w-full">
-            {firstPlace.length > 0 ? (
-              firstPlace.map(p => (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.3, type: 'spring' }}
-                  key={p.id}
-                  className="bg-amber-500/10 border border-amber-500/30 px-3 py-1.5 rounded-xl shadow-lg shadow-amber-500/5 mb-1.5"
-                >
-                  <div className="flex items-center justify-center gap-1">
-                    <Crown className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-                    <p className="font-bold text-sm md:text-base text-amber-300 truncate">{p.name}</p>
-                  </div>
-                  <span className="text-xs font-bold text-amber-400">{p.score} pts</span>
-                </motion.div>
-              ))
-            ) : (
-              <span className="text-xs text-slate-600 font-semibold italic">Vacante</span>
-            )}
-          </div>
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: 170 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="w-full bg-gradient-to-t from-slate-900/90 to-slate-800/80 border-t-4 border-amber-400 rounded-t-2xl shadow-2xl flex flex-col items-center justify-between py-6 min-w-[70px] relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-amber-400/5 pointer-events-none"></div>
-            <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-16 h-16 bg-amber-400/10 rounded-full blur-xl pointer-events-none"></div>
-            <Crown className="w-10 h-10 text-amber-400 drop-shadow-[0_0_12px_rgba(245,158,11,0.5)] animate-pulse" />
-            <div className="text-center z-10">
-              <span className="text-4xl md:text-5xl font-black text-amber-400">1°</span>
-              <p className="text-[10px] uppercase font-bold tracking-widest text-amber-500 mt-1">Oro</p>
+          {firstPlace.length > 0 ? (
+            <>
+              <div className="relative z-10 mb-xs animate-float">
+                <div className="absolute -top-7 left-1/2 -translate-x-1/2 text-yellow-400 animate-pulse z-20">
+                  <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                    workspace_premium
+                  </span>
+                </div>
+                <div className="flex -space-x-3 items-center justify-center">
+                  {firstPlace.map(player => (
+                    <div key={player.id} className="relative w-16 h-16 md:w-24 md:h-24 rounded-full border-2 border-yellow-500 overflow-hidden neon-gold p-0.5 bg-surface-container flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-yellow-500 text-3xl md:text-5xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        person
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="absolute -bottom-1 -right-1 bg-yellow-500 text-surface font-bold w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-sm z-20">
+                  1
+                </div>
+              </div>
+              <div className="glass-panel w-full h-28 md:h-40 rounded-t-lg flex flex-col items-center justify-center border-b-0 bg-primary/5 py-1">
+                <div className="flex flex-col items-center gap-0.5 w-full px-1 overflow-y-auto max-h-16">
+                  {firstPlace.map(player => (
+                    <span key={player.id} className="text-xs md:text-sm text-primary font-bold truncate w-full text-center">
+                      {player.name}
+                    </span>
+                  ))}
+                </div>
+                <span className="font-data-lg text-xs text-tertiary mt-1 font-bold">
+                  {firstPlace[0].score} PTS
+                </span>
+                <div className="mt-1 px-2 py-0.5 bg-tertiary/20 rounded-full border border-tertiary/30">
+                  <span className="font-label-caps text-[8px] text-tertiary">INVENCIBLE</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-28 md:h-40 opacity-20 flex items-center justify-center font-body-md text-[10px] italic text-outline border border-dashed border-white/10 rounded-t-lg">
+              Vacante
             </div>
-          </motion.div>
+          )}
         </div>
 
         {/* 3rd Place - Right */}
         <div className="flex flex-col items-center">
-          <div className="mb-2 text-center max-w-full">
-            {thirdPlace.length > 0 ? (
-              thirdPlace.map(p => (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.7, type: 'spring' }}
-                  key={p.id}
-                  className="bg-slate-800/80 border border-slate-700 px-2.5 py-1 rounded-xl shadow-md mb-1.5"
-                >
-                  <p className="font-bold text-xs md:text-sm text-slate-200 truncate">{p.name}</p>
-                  <span className="text-[10px] md:text-xs font-semibold text-slate-400">{p.score} pts</span>
-                </motion.div>
-              ))
-            ) : (
-              <span className="text-xs text-slate-600 font-semibold italic">Vacante</span>
-            )}
-          </div>
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: 90 }}
-            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.4 }}
-            className="w-full bg-gradient-to-t from-slate-900/90 to-slate-800/80 border-t-4 border-amber-700 rounded-t-2xl shadow-xl flex flex-col items-center justify-between py-3 min-w-[70px] relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-amber-700/5 pointer-events-none"></div>
-            <Award className="w-7 h-7 text-amber-700 drop-shadow-[0_0_8px_rgba(180,83,9,0.3)]" />
-            <div className="text-center z-10">
-              <span className="text-2xl md:text-3xl font-black text-amber-700">3°</span>
-              <p className="text-[10px] uppercase font-bold tracking-widest text-amber-800 mt-0.5">Bronce</p>
-            </div>
-          </motion.div>
-        </div>
-
-      </div>
-
-      {/* Other Players List */}
-      {otherPlayers.length > 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
-          className="w-full max-w-md bg-slate-900/40 rounded-2xl border border-slate-850 p-4 mb-10"
-        >
-          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 pl-1">
-            Resto de la tabla
-          </h3>
-          <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">
-            {otherPlayers.map((p, idx) => (
-              <div
-                key={p.id}
-                className="flex items-center justify-between px-3 py-2 bg-slate-850/50 rounded-xl border border-slate-800/60"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-slate-500 font-bold w-4">{idx + 4}</span>
-                  <div className="p-1 bg-violet-500/10 text-violet-400 rounded-lg">
-                    <User className="w-3.5 h-3.5" />
-                  </div>
-                  <span className="text-sm font-semibold text-slate-300">{p.name}</span>
+          {thirdPlace.length > 0 ? (
+            <>
+              <div className="relative z-10 mb-xs animate-float" style={{ animationDelay: '1s' }}>
+                <div className="flex -space-x-3 items-center justify-center">
+                  {thirdPlace.map(player => (
+                    <div key={player.id} className="relative w-10 h-10 md:w-14 md:h-14 rounded-full border border-orange-700 overflow-hidden neon-bronze p-0.5 bg-surface-container flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-amber-700 text-xl md:text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+                        person
+                      </span>
+                    </div>
+                  ))}
                 </div>
-                <span className="text-xs font-bold text-violet-400">{p.score} pts</span>
+                <div className="absolute -bottom-1 -right-1 bg-orange-700 text-surface font-bold w-4 h-4 md:w-5 md:h-5 rounded-full flex items-center justify-center text-[10px] z-20">
+                  3
+                </div>
+              </div>
+              <div className="glass-panel w-full h-16 md:h-20 rounded-t-lg flex flex-col items-center justify-center border-b-0 py-1">
+                <div className="flex flex-col items-center gap-0.5 w-full px-1 overflow-y-auto max-h-8">
+                  {thirdPlace.map(player => (
+                    <span key={player.id} className="text-xs text-on-surface truncate w-full text-center font-semibold">
+                      {player.name}
+                    </span>
+                  ))}
+                </div>
+                <span className="font-label-caps text-[10px] text-secondary mt-0.5">
+                  {thirdPlace[0].score} PTS
+                </span>
+              </div>
+            </>
+          ) : (
+            <div className="w-full h-16 md:h-20 opacity-20 flex items-center justify-center font-body-md text-[10px] italic text-outline border border-dashed border-white/10 rounded-t-lg">
+              Vacante
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Full Results Table */}
+      {otherPlayers.length > 0 && (
+        <section className="max-w-xl mx-auto glass-panel rounded-xl overflow-hidden mb-md w-full">
+          <div className="py-2 px-3 border-b border-white/10 flex justify-between items-center bg-surface-container-high/50">
+            <h3 className="text-xs font-bold text-on-surface">Tabla Completa</h3>
+            <span className="font-label-caps text-[9px] text-outline">{players.length} ESTUDIANTES</span>
+          </div>
+          <div className="divide-y divide-white/5">
+            {otherPlayers.map((p, index) => (
+              <div key={p.id} className="p-base flex items-center gap-base hover:bg-white/5 transition-colors">
+                <span className="font-data-lg text-xs text-outline-variant w-6">{podiumCount + 1 + index}</span>
+                <div className="w-7 h-7 rounded-full bg-surface-container border border-white/10 overflow-hidden flex items-center justify-center text-secondary">
+                  <span className="material-symbols-outlined text-xs">person</span>
+                </div>
+                <div className="flex-grow">
+                  <p className="text-xs text-on-surface">{p.name}</p>
+                </div>
+                <span className="text-xs text-on-surface-variant font-mono">{p.score}</span>
               </div>
             ))}
           </div>
-        </motion.div>
+        </section>
       )}
 
       {/* Action Buttons */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.9 }}
-        className="flex flex-col sm:flex-row gap-4 w-full justify-center max-w-md"
-      >
+      <div className="flex flex-row justify-center items-center gap-sm mb-base w-full max-w-lg mx-auto">
         <button
-          onClick={onGoToConfig}
-          className="px-6 py-3.5 rounded-xl border border-slate-800 hover:bg-slate-900 text-slate-400 hover:text-slate-200 transition-all font-semibold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-1/2 active:scale-95"
+          onClick={onRestartSame}
+          className="group relative px-6 py-2.5 rounded-lg overflow-hidden primary-glow active:scale-95 transition-all duration-200 w-full md:w-auto cursor-pointer border-none"
         >
-          <Home className="w-4 h-4" />
-          <span>Configurar Nuevos</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-primary to-inverse-primary"></div>
+          <div className="absolute inset-[2px] bg-surface rounded-[6px] group-hover:bg-transparent transition-colors"></div>
+          <div className="relative flex items-center justify-center gap-xs">
+            <span className="material-symbols-outlined text-on-surface text-base group-hover:text-on-primary-fixed transition-colors">replay</span>
+            <span className="text-xs font-bold text-on-surface group-hover:text-on-primary-fixed transition-colors">
+              Jugar de nuevo
+            </span>
+          </div>
         </button>
 
         <button
-          onClick={onRestartSame}
-          className="px-6 py-3.5 rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white font-bold flex items-center justify-center gap-2 shadow-lg hover:shadow-violet-600/20 transition-all cursor-pointer w-full sm:w-1/2 active:scale-95"
+          onClick={onGoToConfig}
+          className="group relative px-6 py-2.5 rounded-lg overflow-hidden secondary-glow active:scale-95 transition-all duration-200 w-full md:w-auto cursor-pointer border-none"
         >
-          <RotateCcw className="w-4 h-4" />
-          <span>Volver a Empezar</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-secondary to-secondary-container"></div>
+          <div className="absolute inset-[2px] bg-surface rounded-[6px] group-hover:bg-transparent transition-colors"></div>
+          <div className="relative flex items-center justify-center gap-xs">
+            <span className="material-symbols-outlined text-secondary text-base group-hover:text-on-secondary-fixed transition-colors">home</span>
+            <span className="text-xs font-bold text-secondary group-hover:text-on-secondary-fixed transition-colors">
+              Volver al inicio
+            </span>
+          </div>
         </button>
-      </motion.div>
+      </div>
     </div>
   );
 }

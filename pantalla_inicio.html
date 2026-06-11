@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Ruleta de Estudio en Grupo - Setup</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&amp;family=JetBrains+Mono:wght@500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .neon-glow-violet {
+            box-shadow: 0 0 20px rgba(208, 188, 255, 0.3);
+        }
+
+        .neon-glow-cyan {
+            box-shadow: 0 0 20px rgba(76, 215, 246, 0.3);
+        }
+
+        body {
+            background-color: #09090b;
+            color: #e5e1e4;
+            overflow-x: hidden;
+        }
+
+        .bg-glow-1 {
+            background: radial-gradient(circle at 20% 30%, rgba(109, 59, 215, 0.15) 0%, transparent 50%);
+        }
+
+        .bg-glow-2 {
+            background: radial-gradient(circle at 80% 70%, rgba(3, 181, 211, 0.1) 0%, transparent 50%);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#201f22",
+                        "secondary-container": "#03b5d3",
+                        "on-primary-fixed": "#23005c",
+                        "tertiary-fixed": "#acf847",
+                        "on-background": "#e5e1e4",
+                        "on-error": "#690005",
+                        "primary-fixed": "#e9ddff",
+                        "surface": "#131315",
+                        "surface-dim": "#131315",
+                        "surface-container-high": "#2a2a2c",
+                        "outline": "#958ea0",
+                        "on-secondary-fixed": "#001f26",
+                        "on-primary-container": "#340080",
+                        "primary-fixed-dim": "#d0bcff",
+                        "tertiary-fixed-dim": "#91db2a",
+                        "error-container": "#93000a",
+                        "on-surface": "#e5e1e4",
+                        "inverse-primary": "#6d3bd7",
+                        "surface-container-lowest": "#0e0e10",
+                        "on-tertiary-fixed": "#102000",
+                        "primary": "#d0bcff",
+                        "outline-variant": "#494454",
+                        "inverse-surface": "#e5e1e4",
+                        "on-tertiary-fixed-variant": "#304f00",
+                        "surface-container-highest": "#353437",
+                        "secondary": "#4cd7f6",
+                        "surface-tint": "#d0bcff",
+                        "on-secondary-fixed-variant": "#004e5c",
+                        "surface-bright": "#39393b",
+                        "on-primary": "#3c0091",
+                        "secondary-fixed-dim": "#4cd7f6",
+                        "background": "#131315",
+                        "on-tertiary": "#1f3700",
+                        "on-error-container": "#ffdad6",
+                        "tertiary-container": "#65a100",
+                        "surface-container-low": "#1c1b1d",
+                        "on-secondary-container": "#00424e",
+                        "inverse-on-surface": "#313032",
+                        "on-surface-variant": "#cbc3d7",
+                        "on-secondary": "#003640",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#acedff",
+                        "on-primary-fixed-variant": "#5516be",
+                        "primary-container": "#a078ff",
+                        "on-tertiary-container": "#1a2f00",
+                        "tertiary": "#91db2a",
+                        "surface-variant": "#353437"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "lg": "48px",
+                        "base": "8px",
+                        "md": "24px",
+                        "xl": "80px",
+                        "gutter": "24px",
+                        "margin-desktop": "40px",
+                        "sm": "12px",
+                        "xs": "4px"
+                    },
+                    "fontFamily": {
+                        "data-lg": ["JetBrains Mono"],
+                        "data-sm": ["JetBrains Mono"],
+                        "body-md": ["Inter"],
+                        "display-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"]
+                    },
+                    "fontSize": {
+                        "data-lg": ["20px", { "lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "data-sm": ["12px", { "lineHeight": "1.0", "fontWeight": "500" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "800" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "fontWeight": "700" }],
+                        "label-caps": ["11px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-on-surface bg-background">
+    <!-- Ambient Background Effects -->
+    <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-glow-1"></div>
+        <div class="absolute inset-0 bg-glow-2"></div>
+    </div>
+    <!-- Top Navigation Shell -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface/30 backdrop-blur-xl border-b border-white/10 flex justify-between items-center px-margin-mobile md:px-margin-desktop h-16 shadow-[0_0_20px_rgba(76,215,246,0.1)]">
+        <div class="flex items-center gap-base">
+            <span class="material-symbols-outlined text-secondary"
+                style="font-variation-settings: 'FILL' 1;">casino</span>
+            <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold text-secondary tracking-tighter">Ruleta
+                de estudio</h1>
+        </div>
+        <div class="flex items-center gap-md">
+            <button
+                class="material-symbols-outlined text-outline hover:text-secondary transition-colors active:scale-95 duration-200">menu</button>
+            <button
+                class="material-symbols-outlined text-outline hover:text-secondary transition-colors active:scale-95 duration-200">account_circle</button>
+        </div>
+    </header>
+    <!-- Main Content Canvas -->
+    <main class="relative z-10 pt-32 pb-32 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto">
+        <!-- Hero Header -->
+        <div class="mb-xl text-center md:text-left">
+            <span
+                class="font-label-caps text-label-caps text-primary mb-base inline-block uppercase tracking-widest">Configuración
+                de Partida</span>
+            <h2 class="font-display-lg text-display-lg text-on-surface mb-md">Ruleta de estudio en grupo</h2>
+            <p class="text-on-surface-variant max-w-2xl font-body-md text-body-md">Prepara tu sesión de estudio
+                competitiva. Agrega a tus compañeros y carga el banco de preguntas para comenzar el desafío.</p>
+        </div>
+        <!-- Bento Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+            <!-- Card 1: Companion List -->
+            <section class="md:col-span-7 glass-panel rounded-xl p-md flex flex-col gap-md shadow-2xl">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-headline-lg text-headline-lg text-primary">Compañeros</h3>
+                        <p class="text-on-surface-variant font-data-sm text-data-sm uppercase">04 Miembros Activos</p>
+                    </div>
+                    <span class="font-data-lg text-data-lg text-secondary opacity-50">#01</span>
+                </div>
+                <!-- Input Group -->
+                <div class="relative mt-base">
+                    <input
+                        class="w-full bg-black/40 border-b border-secondary/50 focus:border-secondary focus:ring-0 text-on-surface py-md px-base rounded-t-lg transition-all placeholder:text-outline-variant font-body-md"
+                        placeholder="Escribe un nombre..." type="text" />
+                    <button
+                        class="absolute right-base top-1/2 -translate-y-1/2 w-10 h-10 bg-secondary rounded-lg flex items-center justify-center text-on-secondary shadow-[0_0_15px_rgba(76,215,246,0.5)] hover:scale-105 active:scale-95 transition-transform">
+                        <span class="material-symbols-outlined">person_add</span>
+                    </button>
+                </div>
+                <!-- Scrollable List -->
+                <div class="flex flex-col gap-sm max-h-64 overflow-y-auto pr-xs">
+                    <div
+                        class="flex justify-between items-center p-base bg-white/5 rounded-lg border border-white/5 hover:border-secondary/30 transition-all group">
+                        <div class="flex items-center gap-base">
+                            <div
+                                class="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center border border-primary/40">
+                                <span class="material-symbols-outlined text-primary text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">person</span>
+                            </div>
+                            <span class="font-body-md text-on-surface">Alex Rivera</span>
+                        </div>
+                        <button class="text-outline hover:text-error transition-colors"><span
+                                class="material-symbols-outlined">delete</span></button>
+                    </div>
+                    <div
+                        class="flex justify-between items-center p-base bg-white/5 rounded-lg border border-white/5 hover:border-secondary/30 transition-all group">
+                        <div class="flex items-center gap-base">
+                            <div
+                                class="w-8 h-8 rounded-full bg-secondary/20 flex items-center justify-center border border-secondary/40">
+                                <span class="material-symbols-outlined text-secondary text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">person</span>
+                            </div>
+                            <span class="font-body-md text-on-surface">Sofia Chen</span>
+                        </div>
+                        <button class="text-outline hover:text-error transition-colors"><span
+                                class="material-symbols-outlined">delete</span></button>
+                    </div>
+                    <div
+                        class="flex justify-between items-center p-base bg-white/5 rounded-lg border border-white/5 hover:border-secondary/30 transition-all group">
+                        <div class="flex items-center gap-base">
+                            <div
+                                class="w-8 h-8 rounded-full bg-tertiary/20 flex items-center justify-center border border-tertiary/40">
+                                <span class="material-symbols-outlined text-tertiary text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">person</span>
+                            </div>
+                            <span class="font-body-md text-on-surface">Marco Polo</span>
+                        </div>
+                        <button class="text-outline hover:text-error transition-colors"><span
+                                class="material-symbols-outlined">delete</span></button>
+                    </div>
+                </div>
+            </section>
+            <!-- Card 2: JSON Upload -->
+            <section
+                class="md:col-span-5 glass-panel rounded-xl p-md flex flex-col gap-md shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-4 -top-4 opacity-10">
+                    <span class="material-symbols-outlined text-[120px]">terminal</span>
+                </div>
+                <h3 class="font-headline-lg text-headline-lg text-secondary">Banco de Preguntas</h3>
+                <div
+                    class="flex-grow border-2 border-dashed border-white/10 rounded-xl flex flex-col items-center justify-center p-lg text-center hover:border-secondary/50 hover:bg-white/5 transition-all cursor-pointer group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-md group-hover:scale-110 transition-transform neon-glow-cyan">
+                        <span class="material-symbols-outlined text-secondary text-3xl">upload_file</span>
+                    </div>
+                    <p class="font-data-lg text-data-lg text-on-surface mb-xs">Cargar archivo JSON</p>
+                    <p class="text-outline-variant font-body-md text-sm">Arrastra y suelta tu banco de preguntas aquí
+                    </p>
+                </div>
+                <div class="bg-black/20 p-base rounded-lg border border-white/5">
+                    <div class="flex items-center gap-xs mb-xs">
+                        <span class="material-symbols-outlined text-sm text-tertiary">info</span>
+                        <span class="font-label-caps text-[10px] text-tertiary">FORMATO REQUERIDO</span>
+                    </div>
+                    <code
+                        class="font-data-sm text-data-sm text-outline-variant block overflow-x-auto whitespace-nowrap">
+                        { "preguntas": [{ "id": 1, "texto": "...", "resp": "..." }] }
+                    </code>
+                </div>
+            </section>
+        </div>
+        <!-- Call to Action -->
+        <div class="mt-xl flex justify-center">
+            <button
+                class="group relative px-xl py-md bg-primary text-on-primary font-headline-lg rounded-xl flex items-center gap-base shadow-[0_0_30px_rgba(208,188,255,0.4)] hover:scale-105 active:scale-95 transition-all">
+                <span class="relative z-10">EMPEZAR JUEGO</span>
+                <span class="material-symbols-outlined relative z-10 transition-transform group-hover:translate-x-1"
+                    style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+                <div
+                    class="absolute inset-0 bg-white/20 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity">
+                </div>
+            </button>
+        </div>
+    </main>
+    <!-- Bottom Navigation Shell (Mobile Only) -->
+    <nav
+        class="md:hidden fixed bottom-0 w-full z-50 bg-surface-container/20 backdrop-blur-2xl border-t border-white/5 flex justify-around items-center h-20 px-4 pb-2 shadow-[0_-4px_20px_rgba(208,188,255,0.15)]">
+        <a class="flex flex-col items-center justify-center text-primary bg-primary/10 rounded-xl px-4 py-1 shadow-[0_0_15px_rgba(208,188,255,0.3)]"
+            href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+            <span class="font-label-caps text-label-caps">Inicio</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-outline-variant hover:bg-white/5 transition-colors"
+            href="#">
+            <span class="material-symbols-outlined">casino</span>
+            <span class="font-label-caps text-label-caps">Juego</span>
+        </a>
+        <a class="flex flex-col items-center justify-center text-outline-variant hover:bg-white/5 transition-colors"
+            href="#">
+            <span class="material-symbols-outlined">emoji_events</span>
+            <span class="font-label-caps text-label-caps">Podio</span>
+        </a>
+    </nav>
+    <!-- Navigation Drawer (Side) - Hidden by default, controlled via JS -->
+    <aside
+        class="fixed left-0 top-0 z-[60] h-full w-80 bg-surface-container-low/90 backdrop-blur-3xl border-r border-white/10 shadow-2xl shadow-black -translate-x-full transition-transform duration-300"
+        id="nav-drawer">
+        <div class="flex flex-col p-md gap-base">
+            <div class="flex items-center gap-md mb-lg border-b border-white/5 pb-md">
+                <div
+                    class="w-12 h-12 rounded-xl bg-secondary/20 flex items-center justify-center border border-secondary/40">
+                    <span class="material-symbols-outlined text-secondary">person</span>
+                </div>
+                <div>
+                    <p class="font-data-lg text-secondary">Estudiante Pro</p>
+                    <p class="font-body-md text-on-surface-variant text-sm">Nivel 15</p>
+                </div>
+            </div>
+            <nav class="flex flex-col gap-base">
+                <a class="flex items-center gap-base p-base bg-secondary/20 text-secondary font-bold rounded-lg transition-all active:translate-x-1"
+                    href="#">
+                    <span class="material-symbols-outlined">person</span>
+                    <span class="font-body-md">Perfil</span>
+                </a>
+                <a class="flex items-center gap-base p-base text-on-surface-variant hover:bg-white/5 rounded-lg transition-all active:translate-x-1"
+                    href="#">
+                    <span class="material-symbols-outlined">history</span>
+                    <span class="font-body-md">Historial</span>
+                </a>
+                <a class="flex items-center gap-base p-base text-on-surface-variant hover:bg-white/5 rounded-lg transition-all active:translate-x-1"
+                    href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span class="font-body-md">Ajustes</span>
+                </a>
+                <div class="mt-xl pt-md border-t border-white/5">
+                    <a class="flex items-center gap-base p-base text-on-surface-variant hover:text-error hover:bg-error/5 rounded-lg transition-all active:translate-x-1"
+                        href="#">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="font-body-md">Cerrar Sesión</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </aside>
+    <!-- Overlay for Drawer -->
+    <div class="fixed inset-0 bg-black/60 z-[55] hidden backdrop-blur-sm" id="nav-overlay"></div>
+    <script>
+        // Simple Interaction logic
+        const menuBtn = document.querySelector('header .material-symbols-outlined:first-child');
+        const drawer = document.getElementById('nav-drawer');
+        const overlay = document.getElementById('nav-overlay');
+
+        const toggleDrawer = () => {
+            drawer.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        };
+
+        menuBtn.addEventListener('click', toggleDrawer);
+        overlay.addEventListener('click', toggleDrawer);
+
+        // Input effect
+        const nameInput = document.querySelector('input[type="text"]');
+        nameInput.addEventListener('focus', () => {
+            nameInput.parentElement.classList.add('neon-glow-cyan');
+        });
+        nameInput.addEventListener('blur', () => {
+            nameInput.parentElement.classList.remove('neon-glow-cyan');
+        });
+    </script>
+</body>
+
+</html>

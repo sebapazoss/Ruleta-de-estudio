@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Play } from 'lucide-react';
 import { playTickSound } from '../utils/audio';
 
 export default function RouletteWheel({
@@ -22,16 +21,19 @@ export default function RouletteWheel({
   const cx = 150;
   const cy = 150;
 
-  // Colors palette
+  // Mockup themed colors (matching bg-primary/20, bg-secondary/20, bg-tertiary/20, bg-error/20)
   const colors = [
-    '#8b5cf6', // Violet
-    '#06b6d4', // Cyan
-    '#d946ef', // Fuchsia
-    '#10b981', // Emerald
-    '#f59e0b', // Amber
-    '#f43f5e', // Rose
-    '#6366f1', // Indigo
-    '#0ea5e9', // Sky
+    'rgba(208, 188, 255, 0.25)', // primary/25
+    'rgba(76, 215, 246, 0.25)',  // secondary/25
+    'rgba(145, 219, 42, 0.25)',  // tertiary/25
+    'rgba(255, 180, 171, 0.25)', // error/25
+  ];
+
+  const strokeColors = [
+    '#d0bcff', // primary
+    '#4cd7f6', // secondary
+    '#91db2a', // tertiary
+    '#ffb4ab', // error
   ];
 
   // Helper to draw SVG slices
@@ -41,7 +43,6 @@ export default function RouletteWheel({
     return [x, y];
   };
 
-  // Shift angle by -90 deg so slice 0 starts at top
   function startXVal(percent) {
     return percent - 0.25;
   }
@@ -66,18 +67,16 @@ export default function RouletteWheel({
     const textX = cx + textRadius * Math.cos(midAngleRadians);
     const textY = cy + textRadius * Math.sin(midAngleRadians);
 
-    // Find original index in the complete questions array for labeling (1-based)
     const originalIndex = questions.findIndex(q => q.id === question.id);
     const label = `Preg. ${originalIndex + 1}`;
 
-    // Normalize angle to [0, 360) range
     const normAngle = ((midAngleDegrees % 360) + 360) % 360;
-    // Flip text if it is in the left hemisphere (between 90 and 270 degrees) to keep it right side up
     const textRotation = (normAngle > 90 && normAngle < 270) ? normAngle + 180 : normAngle;
 
     return {
       pathData,
       color: colors[originalIndex % colors.length],
+      strokeColor: strokeColors[originalIndex % strokeColors.length],
       textX,
       textY,
       textRotation,
@@ -113,17 +112,12 @@ export default function RouletteWheel({
   const spin = () => {
     if (isSpinning || N === 0 || !nextPlayer) return;
 
-    // Pick winning question randomly from unused questions
     const winnerIndex = Math.floor(Math.random() * N);
     const winnerQuestion = unusedQuestions[winnerIndex];
 
-    // Notify parent to lock interface and register winner
     onSpinStart(winnerQuestion, nextPlayer);
-
-    // Play ticking sound
     playSlowingTicks();
 
-    // Calculate rotation to make the winner index land at the top pointer (270 degrees)
     const sliceAngle = 360 / N;
     const midAngle = (winnerIndex * sliceAngle) + (sliceAngle / 2);
     
@@ -132,26 +126,19 @@ export default function RouletteWheel({
     const relativeTargetRotation = 360 - midAngle + jitter;
     const targetRotation = currentRotation + (spinRounds * 360) + relativeTargetRotation;
 
-    // Set target values for the completion callback
     setSpinTarget({ question: winnerQuestion, player: nextPlayer });
-
-    // Set rotation to trigger Framer Motion animation
     setCurrentRotation(targetRotation);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      {/* Outer rim decoration */}
-      <div className="relative w-[300px] h-[300px] rounded-full flex items-center justify-center bg-slate-900 border-4 border-slate-800 shadow-[0_0_40px_rgba(139,92,246,0.15)]">
-        
-        {/* Top Pointer Indicator */}
-        <div className="absolute -top-3 z-30 filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)]">
-          <div className="w-0 h-0 border-l-[14px] border-l-transparent border-r-[14px] border-r-transparent border-t-[24px] border-t-rose-500 rounded-sm"></div>
-          <div className="w-1.5 h-1.5 bg-white rounded-full absolute top-1 left-1/2 -translate-x-1/2"></div>
-        </div>
+    <div className="flex flex-col items-center justify-center relative w-full mt-6">
+      {/* The Roulette Body Container */}
+      <div className="relative w-[320px] h-[320px] flex items-center justify-center">
+        {/* Outer Ring Glow */}
+        <div className="absolute inset-0 rounded-full border-[8px] border-surface-container-high/40 shadow-[0_0_30px_rgba(76,215,246,0.15)] pointer-events-none z-10"></div>
 
-        {/* Outer glowing ring */}
-        <div className="absolute inset-0.5 rounded-full border-2 border-dashed border-violet-500/30 animate-spin-slow"></div>
+        {/* Outer Ring Dashed Deco */}
+        <div className="absolute inset-1.5 rounded-full border border-dashed border-secondary/20 animate-spin-slow pointer-events-none z-10"></div>
 
         {/* The rotating wheel */}
         <motion.div
@@ -165,7 +152,7 @@ export default function RouletteWheel({
               onSpinComplete(spinTarget.question, spinTarget.player);
             }
           }}
-          className="w-[260px] h-[260px] rounded-full overflow-hidden shadow-2xl relative bg-slate-800"
+          className="w-[280px] h-[280px] rounded-full overflow-hidden border-4 border-secondary/30 relative bg-surface-container shadow-2xl z-0"
         >
           {N > 0 ? (
             <svg viewBox="0 0 300 300" className="w-full h-full select-none">
@@ -177,56 +164,69 @@ export default function RouletteWheel({
                       d={slice.pathData}
                       fill={slice.color}
                       className="transition-colors duration-300 hover:opacity-90"
-                      stroke="#0f172a"
-                      strokeWidth={N > 1 ? "2" : "0"}
+                      stroke="rgba(255,255,255,0.05)"
+                      strokeWidth={N > 1 ? "1.5" : "0"}
                     />
                     
                     {/* Rotated text */}
                     <text
                       x={slice.textX}
                       y={slice.textY}
-                      fill="#ffffff"
+                      fill={slice.strokeColor}
                       fontSize={N > 8 ? "9" : "10"}
                       fontWeight="bold"
                       textAnchor="middle"
                       dominantBaseline="middle"
                       transform={`rotate(${slice.textRotation}, ${slice.textX}, ${slice.textY})`}
-                      className="tracking-wide drop-shadow-[0_1.5px_1.5px_rgba(0,0,0,0.8)]"
+                      className="tracking-wider font-mono"
                     >
                       {slice.label}
                     </text>
                   </g>
                 ))}
               </g>
-              {/* Inner ring */}
-              <circle cx={cx} cy={cy} r="25" fill="#0f172a" stroke="#1e293b" strokeWidth="3" />
             </svg>
           ) : (
-            <div className="absolute inset-0 flex items-center justify-center text-slate-500 text-sm font-semibold text-center p-6">
+            <div className="absolute inset-0 flex items-center justify-center text-slate-500 text-xs font-semibold text-center p-4">
               No quedan preguntas en el pool
             </div>
           )}
         </motion.div>
 
-        {/* Centered Hub Cap */}
-        <div className="absolute w-12 h-12 rounded-full bg-slate-900 border-2 border-slate-700 flex items-center justify-center shadow-lg pointer-events-none z-10">
-          <div className="w-4 h-4 rounded-full bg-violet-500 animate-pulse"></div>
+        {/* Center Point - Spin Button */}
+        <button
+          onClick={spin}
+          disabled={isSpinning || N === 0 || !nextPlayer}
+          className="absolute z-20 w-16 h-16 rounded-full bg-surface-container-high border-2 border-secondary flex flex-col items-center justify-center neon-cyan-glow group active:scale-90 transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed border-solid"
+        >
+          <span className="material-symbols-outlined text-secondary text-xl group-hover:animate-spin">
+            casino
+          </span>
+          <span className="font-label-caps text-secondary text-[8px] font-bold">GIRAR</span>
+        </button>
+
+        {/* Indicator Needle */}
+        <div className="absolute -top-5 z-20 text-secondary drop-shadow-[0_0_10px_rgba(76,215,246,0.8)]">
+          <span className="material-symbols-outlined text-3xl" style={{ fontVariationSettings: "'FILL' 1" }}>
+            arrow_drop_down
+          </span>
         </div>
       </div>
 
-      {/* Spin Button */}
-      <button
-        onClick={spin}
-        disabled={isSpinning || N === 0 || !nextPlayer}
-        className={`mt-4 px-6 py-2.5 rounded-lg font-bold flex items-center gap-2.5 transition-all duration-300 transform active:scale-95 shadow-lg text-sm ${
-          isSpinning || N === 0 || !nextPlayer
-            ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
-            : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] scale-100 hover:scale-[1.02]'
-        }`}
-      >
-        <Play className={`w-5 h-5 ${isSpinning ? 'animate-spin' : ''}`} />
-        {isSpinning ? 'Girando...' : '¡GIRAR RULETA!'}
-      </button>
+      {/* Stats Overlay */}
+      <div className="mt-base flex gap-gutter bg-surface-container-low/40 p-base rounded-xl border border-white/5 shadow-lg max-w-xs w-full justify-center">
+        <div className="text-center flex-1">
+          <p className="font-label-caps text-outline text-[9px] uppercase tracking-widest mb-xs">PREGUNTAS RESTANTES</p>
+          <p className="font-data-lg text-sm text-secondary tracking-tighter">{N} / {questions.length}</p>
+        </div>
+        <div className="w-px h-8 bg-white/10 self-center"></div>
+        <div className="text-center flex-1">
+          <p className="font-label-caps text-outline text-[9px] uppercase tracking-widest mb-xs">SIGUIENTE GIRO</p>
+          <p className="font-data-lg text-sm text-primary tracking-tighter truncate max-w-[100px] mx-auto" title={nextPlayer?.name || '-'}>
+            {nextPlayer?.name || '-'}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
