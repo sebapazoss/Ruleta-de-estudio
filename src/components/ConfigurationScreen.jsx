@@ -81,27 +81,27 @@ export default function ConfigurationScreen({
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-8">
+    <div className="max-w-4xl mx-auto px-4 py-4">
       {/* Title Header */}
-      <div className="text-center mb-10">
-        <h1 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-violet-400 via-fuchsia-400 to-rose-400 bg-clip-text text-transparent drop-shadow-md">
+      <div className="text-center mb-4">
+        <h1 className="text-2xl md:text-3xl font-black bg-gradient-to-r from-violet-400 via-fuchsia-400 to-rose-400 bg-clip-text text-transparent drop-shadow-md">
           Ruleta de Estudio en Grupo
         </h1>
-        <p className="text-slate-400 mt-3 text-lg font-medium max-w-xl mx-auto">
+        <p className="text-slate-400 mt-1 text-sm font-medium max-w-xl mx-auto">
           Configura tus participantes y carga tus preguntas para empezar un repaso interactivo y competitivo.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {/* Left Side: Players Setup */}
-        <div className="glass-panel p-6 rounded-2xl border border-slate-700/50 shadow-xl flex flex-col">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-violet-400">
+        <div className="glass-panel p-4 rounded-xl border border-slate-700/50 shadow-xl flex flex-col">
+          <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-violet-400">
             <Users className="w-5 h-5" />
             1. Participantes
           </h2>
 
           {/* Add Player Form */}
-          <form onSubmit={addPlayer} className="flex gap-2 mb-6">
+          <form onSubmit={addPlayer} className="flex gap-2 mb-4">
             <div className="relative flex-1">
               <input
                 type="text"
@@ -111,30 +111,30 @@ export default function ConfigurationScreen({
                   const cleaned = e.target.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]/g, '');
                   setPlayerNameInput(cleaned.slice(0, 15));
                 }}
-                placeholder="Nombre del participante..."
-                className="w-full pl-4 pr-10 py-3 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
+                placeholder="Nombre..."
+                className="w-full pl-3 pr-10 py-2 rounded-lg bg-slate-900/60 border border-slate-700 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent transition-all"
               />
             </div>
             <button
               type="submit"
-              className="px-5 py-3 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-sm font-semibold flex items-center gap-1.5 transition-all shadow-md active:scale-95 cursor-pointer"
             >
-              <UserPlus className="w-5 h-5" />
+              <UserPlus className="w-4 h-4" />
               <span>Agregar</span>
             </button>
           </form>
 
           {/* Players List */}
-          <div className="flex-1 min-h-[220px] max-h-[300px] overflow-y-auto space-y-2 pr-1">
+          <div className="flex-1 min-h-[150px] max-h-[200px] overflow-y-auto space-y-1.5 pr-1">
             {players.map((p) => (
               <div
                 key={p.id}
-                className="flex items-center justify-between px-4 py-3 bg-slate-800/40 border border-slate-800 hover:border-slate-700/50 rounded-xl transition-all group"
+                className="flex items-center justify-between px-3 py-2 bg-slate-800/40 border border-slate-800 hover:border-slate-700/50 rounded-lg transition-all group"
               >
-                <span className="font-semibold text-slate-200">{p.name}</span>
+                <span className="font-semibold text-sm text-slate-200">{p.name}</span>
                 <button
                   onClick={() => removePlayer(p.id)}
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all opacity-100 md:opacity-0 group-hover:opacity-100 cursor-pointer"
+                  className="p-1 rounded-md text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all opacity-100 md:opacity-0 group-hover:opacity-100 cursor-pointer"
                   title="Eliminar participante"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -143,29 +143,29 @@ export default function ConfigurationScreen({
             ))}
 
             {players.length === 0 && (
-              <div className="h-full flex flex-col items-center justify-center text-slate-500 py-12">
-                <Users className="w-10 h-10 mb-2 stroke-[1.5] text-slate-600" />
-                <p className="text-sm">No hay participantes agregados</p>
+              <div className="h-full flex flex-col items-center justify-center text-slate-500 py-6">
+                <Users className="w-8 h-8 mb-1.5 stroke-[1.5] text-slate-600" />
+                <p className="text-xs">No hay participantes agregados</p>
               </div>
             )}
           </div>
         </div>
 
         {/* Right Side: Questions Upload */}
-        <div className="glass-panel p-6 rounded-2xl border border-slate-700/50 shadow-xl flex flex-col">
-          <h2 className="text-xl font-bold mb-4 flex items-center gap-2 text-violet-400">
+        <div className="glass-panel p-4 rounded-xl border border-slate-700/50 shadow-xl flex flex-col">
+          <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-violet-400">
             <BookOpen className="w-5 h-5" />
             2. Preguntas y Respuestas
           </h2>
 
-          <p className="text-slate-400 text-xs mb-4">
+          <p className="text-slate-400 text-xs mb-3">
             Sube un archivo JSON con formato: <code className="bg-slate-900 px-1.5 py-0.5 rounded text-amber-400 font-mono">{'[{"pregunta": "...", "respuesta": "..."}]'}</code>
           </p>
 
           {/* File Upload Area */}
           <div
             onClick={triggerFileSelect}
-            className={`border-2 border-dashed rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-3 flex-1 min-h-[140px] ${
+            className={`border-2 border-dashed rounded-xl p-4 text-center cursor-pointer transition-all duration-300 flex flex-col items-center justify-center gap-2 flex-1 min-h-[100px] ${
               jsonSuccess
                 ? 'border-emerald-500/40 bg-emerald-500/5 hover:bg-emerald-500/10'
                 : jsonError
@@ -180,36 +180,36 @@ export default function ConfigurationScreen({
               accept=".json"
               className="hidden"
             />
-            <FileJson className={`w-10 h-10 stroke-[1.5] ${
+            <FileJson className={`w-8 h-8 stroke-[1.5] ${
               jsonSuccess ? 'text-emerald-400' : jsonError ? 'text-rose-400' : 'text-slate-400'
             }`} />
             
             <div>
-              <p className="text-sm font-semibold text-slate-300">
+              <p className="text-xs font-semibold text-slate-300">
                 {jsonSuccess ? '¡Archivo cargado correctamente!' : 'Haz clic para seleccionar archivo JSON'}
               </p>
-              <p className="text-xs text-slate-500 mt-1">
+              <p className="text-[10px] text-slate-500 mt-0.5">
                 JSON de preguntas y respuestas (.json)
               </p>
             </div>
           </div>
 
           {/* Feedback & Stats */}
-          <div className="mt-4 min-h-[48px]">
+          <div className="mt-3 min-h-[36px]">
             {jsonError && (
-              <div className="flex items-start gap-2 text-xs text-rose-400 bg-rose-500/10 p-2.5 rounded-xl border border-rose-500/20">
+              <div className="flex items-start gap-2 text-xs text-rose-400 bg-rose-500/10 p-2 rounded-lg border border-rose-500/20">
                 <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                 <span>{jsonError}</span>
               </div>
             )}
             {jsonSuccess && (
-              <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 p-2.5 rounded-xl border border-emerald-500/20">
+              <div className="flex items-center gap-2 text-xs text-emerald-400 bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
                 <CheckCircle2 className="w-4 h-4 shrink-0" />
                 <span>Cargadas {questions.length} preguntas correctamente.</span>
               </div>
             )}
             {!jsonError && !jsonSuccess && (
-              <div className="text-xs text-slate-500 bg-slate-800/30 p-2.5 rounded-xl border border-slate-800/50 flex justify-between items-center">
+              <div className="text-xs text-slate-500 bg-slate-800/30 p-2 rounded-lg border border-slate-800/50 flex justify-between items-center">
                 <span>Usando preguntas actuales del pool.</span>
                 <span className="font-bold text-violet-400">{questions.length} preguntas</span>
               </div>
@@ -219,11 +219,11 @@ export default function ConfigurationScreen({
       </div>
 
       {/* Control Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+      <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
         {/* Reset to defaults */}
         <button
           onClick={resetToDefault}
-          className="px-5 py-3 rounded-xl border border-slate-700 text-slate-400 hover:text-slate-200 hover:bg-slate-800 hover:border-slate-600 transition-all font-semibold flex items-center gap-2 cursor-pointer text-sm w-full sm:w-auto justify-center"
+          className="px-4 py-2.5 rounded-lg border border-slate-700 text-slate-400 hover:text-slate-200 hover:bg-slate-800 hover:border-slate-600 transition-all font-semibold flex items-center gap-2 cursor-pointer text-xs w-full sm:w-auto justify-center"
         >
           <RefreshCw className="w-4 h-4" />
           Restablecer Valores Iniciales
@@ -233,13 +233,13 @@ export default function ConfigurationScreen({
         <button
           onClick={onStartGame}
           disabled={players.length === 0 || questions.length === 0}
-          className={`px-8 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 text-base w-full sm:w-auto cursor-pointer shadow-lg ${
+          className={`px-6 py-2.5 rounded-lg font-bold flex items-center justify-center gap-2 transition-all transform active:scale-95 text-sm w-full sm:w-auto cursor-pointer shadow-lg ${
             players.length === 0 || questions.length === 0
               ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
               : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.3)]'
           }`}
         >
-          <Play className="w-5 h-5 fill-current" />
+          <Play className="w-4 h-4 fill-current" />
           Comenzar Juego
         </button>
       </div>

@@ -251,7 +251,7 @@ export default function App() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-violet-600/5 rounded-full blur-[100px] pointer-events-none"></div>
 
       {/* Top Navigation / Status bar */}
-      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 py-4 px-6 flex items-center justify-between">
+      <header className="border-b border-slate-900 bg-slate-950/80 backdrop-blur-md sticky top-0 z-40 py-2.5 px-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="p-1.5 bg-gradient-to-tr from-violet-600 to-fuchsia-600 rounded-lg">
             <HelpCircle className="w-5 h-5 text-white" />
@@ -310,7 +310,7 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900 py-6 text-center text-xs text-slate-600 font-medium relative z-10">
+      <footer className="border-t border-slate-900 py-3 text-center text-xs text-slate-600 font-medium relative z-10">
         <p>© 2026 Ruleta de Estudio en Grupo. Creado para el aprendizaje colaborativo.</p>
       </footer>
 

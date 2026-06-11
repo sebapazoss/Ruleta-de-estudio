@@ -22,8 +22,8 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
   };
 
   return (
-    <div className="glass-panel rounded-2xl p-6 shadow-xl w-full border border-slate-700/50">
-      <div className="flex items-center justify-between mb-6">
+    <div className="glass-panel rounded-xl p-4 shadow-xl w-full border border-slate-700/50">
+      <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold flex items-center gap-2 text-violet-400">
           <Trophy className="w-5 h-5 text-amber-400 animate-bounce" />
           Tabla de Posiciones
@@ -33,20 +33,20 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
         </span>
       </div>
 
-      <div className="space-y-3 max-h-[350px] overflow-y-auto pr-1">
+      <div className="space-y-1.5 max-h-[420px] overflow-y-auto pr-1">
         {sortedPlayers.map((player, index) => {
           const isLeader = player.score > 0 && player.score === highestScore;
           
           return (
             <div
               key={player.id}
-              className={`flex items-center justify-between p-3.5 rounded-xl transition-all duration-300 ${
+              className={`flex items-center justify-between py-2 px-3 rounded-lg transition-all duration-300 ${
                 isLeader
                   ? 'bg-amber-500/10 border border-amber-500/30'
                   : 'bg-slate-800/40 hover:bg-slate-800/60 border border-slate-800/50'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 {/* Ranking Position */}
                 <div className="flex items-center justify-center w-6 h-6 rounded-full font-bold text-xs bg-slate-700/50 text-slate-300">
                   {index === 0 && player.score > 0 ? (
@@ -57,33 +57,33 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
                 </div>
 
                 {/* Player Name and Avatar */}
-                <div className="flex items-center gap-2.5">
-                  <div className={`p-2 rounded-lg ${
+                <div className="flex items-center gap-2">
+                  <div className={`p-1.5 rounded-md ${
                     isLeader ? 'bg-amber-500/20 text-amber-400' : 'bg-violet-500/10 text-violet-400'
                   }`}>
                     <User className="w-4 h-4" />
                   </div>
-                  <span className="font-semibold text-slate-200 truncate max-w-[120px]">
+                  <span className="text-sm font-semibold text-slate-200 truncate max-w-[120px]">
                     {player.name}
                   </span>
                 </div>
               </div>
 
               {/* Score and optional Remove button */}
-              <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5">
-                  <span className={`text-lg font-bold ${
+              <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-1">
+                  <span className={`text-base font-bold ${
                     isLeader ? 'text-amber-400' : 'text-violet-300'
                   }`}>
                     {player.score}
                   </span>
-                  <span className="text-xs text-slate-500 font-medium">pts</span>
+                  <span className="text-[10px] text-slate-500 font-medium">pts</span>
                 </div>
 
                 {onRemovePlayer && (
                   <button
                     onClick={() => onRemovePlayer(player.id)}
-                    className="p-1.5 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all cursor-pointer"
+                    className="p-1 rounded-md text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 transition-all cursor-pointer"
                     title="Retirar jugador"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -95,24 +95,24 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
         })}
 
         {players.length === 0 && (
-          <div className="text-center py-8 text-slate-500 text-sm">
+          <div className="text-center py-6 text-slate-500 text-sm">
             No hay jugadores todavía.
           </div>
         )}
       </div>
 
       {onAddPlayer && (
-        <div className="mt-4 pt-4 border-t border-slate-800/80">
+        <div className="mt-2.5 pt-2.5 border-t border-slate-800/80">
           {!showAddForm ? (
             <button
               onClick={() => setShowAddForm(true)}
-              className="w-full py-2.5 rounded-xl border border-dashed border-violet-500/30 hover:border-violet-500/60 bg-violet-500/5 hover:bg-violet-500/10 text-violet-400 hover:text-violet-300 font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer active:scale-[0.98]"
+              className="w-full py-2 rounded-lg border border-dashed border-violet-500/30 hover:border-violet-500/60 bg-violet-500/5 hover:bg-violet-500/10 text-violet-400 hover:text-violet-300 font-semibold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer active:scale-[0.98]"
             >
               <Plus className="w-4 h-4" />
               <span>Unir Compañero Tarde ⏰</span>
             </button>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-2">
               <div className="flex items-center gap-2">
                 <div className="relative flex-1">
                   <input
@@ -123,7 +123,7 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
                       setNewPlayerName(cleaned.slice(0, 15));
                     }}
                     placeholder="Nombre..."
-                    className="w-full pl-3 pr-12 py-2 rounded-xl bg-slate-900/60 border border-slate-700 text-slate-100 placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
+                    className="w-full pl-3 pr-12 py-1.5 rounded-lg bg-slate-900/60 border border-slate-700 text-slate-100 placeholder-slate-500 text-xs focus:outline-none focus:ring-2 focus:ring-violet-500 transition-all"
                     autoFocus
                   />
                   <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[10px] text-slate-500 font-bold bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700/50">
@@ -133,7 +133,7 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
                 
                 <button
                   type="submit"
-                  className="p-2 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-semibold flex items-center justify-center transition-all shadow-md active:scale-95 cursor-pointer"
+                  className="p-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white font-semibold flex items-center justify-center transition-all shadow-md active:scale-95 cursor-pointer"
                   title="Confirmar"
                 >
                   <Check className="w-4 h-4" />
@@ -144,7 +144,7 @@ export default function Leaderboard({ players, onRemovePlayer, onAddPlayer }) {
                     setShowAddForm(false);
                     setNewPlayerName('');
                   }}
-                  className="p-2 rounded-xl border border-slate-700 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
+                  className="p-1.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-slate-400 hover:text-slate-200 transition-all cursor-pointer"
                   title="Cancelar"
                 >
                   <X className="w-4 h-4" />

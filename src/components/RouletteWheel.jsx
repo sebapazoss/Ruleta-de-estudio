@@ -140,9 +140,9 @@ export default function RouletteWheel({
   };
 
   return (
-    <div className="flex flex-col items-center justify-center p-6">
+    <div className="flex flex-col items-center justify-center p-4">
       {/* Outer rim decoration */}
-      <div className="relative w-[340px] h-[340px] rounded-full flex items-center justify-center bg-slate-900 border-4 border-slate-800 shadow-[0_0_40px_rgba(139,92,246,0.15)]">
+      <div className="relative w-[300px] h-[300px] rounded-full flex items-center justify-center bg-slate-900 border-4 border-slate-800 shadow-[0_0_40px_rgba(139,92,246,0.15)]">
         
         {/* Top Pointer Indicator */}
         <div className="absolute -top-3 z-30 filter drop-shadow-[0_4px_6px_rgba(0,0,0,0.5)]">
@@ -165,7 +165,7 @@ export default function RouletteWheel({
               onSpinComplete(spinTarget.question, spinTarget.player);
             }
           }}
-          className="w-[300px] h-[300px] rounded-full overflow-hidden shadow-2xl relative bg-slate-800"
+          className="w-[260px] h-[260px] rounded-full overflow-hidden shadow-2xl relative bg-slate-800"
         >
           {N > 0 ? (
             <svg viewBox="0 0 300 300" className="w-full h-full select-none">
@@ -218,7 +218,7 @@ export default function RouletteWheel({
       <button
         onClick={spin}
         disabled={isSpinning || N === 0 || !nextPlayer}
-        className={`mt-8 px-8 py-3.5 rounded-xl font-bold flex items-center gap-2.5 transition-all duration-300 transform active:scale-95 shadow-lg ${
+        className={`mt-4 px-6 py-2.5 rounded-lg font-bold flex items-center gap-2.5 transition-all duration-300 transform active:scale-95 shadow-lg text-sm ${
           isSpinning || N === 0 || !nextPlayer
             ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
             : 'bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-500 hover:to-fuchsia-500 text-white hover:shadow-[0_0_20px_rgba(139,92,246,0.4)] scale-100 hover:scale-[1.02]'
